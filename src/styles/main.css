@@ -1,0 +1,23 @@
+
+body {
+min-width: 320px;
+margin: 0;
+height: 100%;
+font-family: "Gotham Pro", Helvetica, Arial, sans-serif;
+color: #4f4f4f;
+}
+
+.main-nav {
+    text-align: center; /* Центрирование элементов */
+}
+  
+.main-nav-menu {
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0;
+    display: flex; /* Располагаем элементы в строку */
+    justify-content: center; /* Выравнивание по центру */
+}
+  
+.main-header-item {
+    margin: 0 10px; /* Расстояние между пунктами меню */
+}
