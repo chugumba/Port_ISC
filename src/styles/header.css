@@ -1,0 +1,45 @@
+
+body {
+min-width: 320px;
+margin: 0;
+height: 100%;
+font-family: "Gotham Pro", Helvetica, Arial, sans-serif;
+color: #4f4f4f;
+}
+.main-header {
+  background-color: lightblue;
+  color: white;
+  padding: 20px;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+}
+  
+.main-nav-menu {
+    list-style: none; 
+    padding: 0;
+    display: flex; 
+    justify-content: center; 
+}
+  
+.main-header-item {
+    margin: 0 10px; 
+}
+
+.main-header-item:last-child {
+    margin-right: 0;
+}
+
+.main-header-item a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    transition: color 1s ease;
+}
+
+.main-header-item a:hover {
+    color: #fdff6b;
+
+}
