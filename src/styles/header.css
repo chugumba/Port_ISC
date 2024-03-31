@@ -21,15 +21,10 @@ color: #4f4f4f;
 }
 
 .header-container {
-    height: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    position: relative;
     display: flex;
+    padding: 10px;
     justify-content: space-between; 
-    align-items: space-between;
-    align-content: space-between;
-    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .header-left {
@@ -44,7 +39,6 @@ color: #4f4f4f;
     text-decoration: none;
     display: flex;
     align-items: center;
-    text-decoration: none;
     color: inherit;
 }
 
@@ -102,21 +96,22 @@ color: #4f4f4f;
     
 }
 .header-right {
-    align-content: center;
+    display: flex;
+    align-items: center;
 }
 @media only screen and ( max-width: 1024px) {
     
     .header-container {
         padding-left: 10px;
-  padding-right: 10px;
+        padding-right: 10px;
     }
 
-    .header-container .nav-button {
+    .nav-button {
         visibility: visible;
         opacity: 1    
     }
 
-    .header-container .main-nav {
+    .main-nav {
         position: fixed;
 		top: -100vh;
 		left: 0;
@@ -126,13 +121,15 @@ color: #4f4f4f;
 		background-color: deepskyblue;
 		transition: 1s;
     }
-    .header-container .main-nav-menu {
+    
+    .main-nav-menu {
         flex-direction: column; 
         align-items: center;
 		justify-content: center;
         gap: 1.5rem;
-      }
-    .header-container .responsive-nav {
+    }
+    
+    .responsive-nav {
         transform: translateY(100vh);
     }
 
