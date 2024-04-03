@@ -120,6 +120,7 @@ color: #4f4f4f;
 		display: flex;
 		background-color: deepskyblue;
 		transition: 1s;
+        z-index: 10;
     }
     
     .main-nav-menu {
