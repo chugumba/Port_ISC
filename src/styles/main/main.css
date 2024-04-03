@@ -1,0 +1,10 @@
+.main-main-container {
+    color: white;
+    min-width: 320px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    font-family: "Titillum Web", sans-serif;
+    border-bottom: 1px solid white;
+  
+  }
