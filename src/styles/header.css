@@ -121,6 +121,7 @@ color: #4f4f4f;
 		background-color: deepskyblue;
 		transition: 1s;
         z-index: 10;
+        visibility: hidden;
     }
     
     .main-nav-menu {
@@ -132,6 +133,7 @@ color: #4f4f4f;
     
     .responsive-nav {
         transform: translateY(100vh);
+        visibility: visible;
     }
 
     .nav-close-button {

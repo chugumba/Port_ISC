@@ -1,8 +1,8 @@
 import React, {useRef} from "react";
 import {FaBars, FaTimes} from 'react-icons/fa'
 import { IoLogIn } from "react-icons/io5";
-import '../styles/header.css';
 import logoImage from '../img/logo.jpg'
+import '../styles/header.css';
 
 const MainHeader = function () {
 

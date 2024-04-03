@@ -1,24 +1,12 @@
-import React from "react";
-import '../styles/main/main.css';
+import Carousel from 'react-bootstrap/Carousel';
+
 const MainBody = function () {
 
     
 
     return (
     
-        <main>
-            <div className="main-main-container">
-                <div>
-                    <h1>
-                        TEST
-                    </h1>
-                    <h2>
-                        bottom text
-                    </h2>
-                </div>
-            </div>
-        </main>
-
+        <main></main>
     );
 }
 
