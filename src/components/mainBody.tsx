@@ -79,7 +79,6 @@ function MainBody() {
         align="center"
         loop 
         withIndicators
-        spacing="xl"
       >
         {slides}
       </Carousel>
