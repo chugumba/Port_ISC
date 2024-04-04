@@ -5,11 +5,12 @@ import MainBody from './components/mainBody';
 function App() {
 
   return (
+
 <div className="App">
     
     <MainHeader/>
     <MainBody/>
-    
+ 
 </div>
   );
 }
