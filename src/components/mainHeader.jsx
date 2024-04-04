@@ -34,6 +34,7 @@ const MainHeader = function () {
                             <li className='main-header-item'><a href="#">Регулятивная информация</a></li>
                             <li className='main-header-item'><a href="#">Контакты</a></li>
                             <li className='main-header-item'><a href="#">Вакансии</a></li>
+                            <li className='main-header-item'><a href="#">Услуги</a></li>
                         </ul>
                     <button onClick={showNavbar} className="nav-button nav-close-button">
                         <FaTimes/>
