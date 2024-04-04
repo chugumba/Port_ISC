@@ -54,7 +54,6 @@ const MainHeader = function () {
                 </div>
                 
         </div>
-        
     </header>
 
     );
