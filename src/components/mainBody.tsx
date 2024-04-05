@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
-import { Button, Paper, Title, useMantineTheme, Text } from '@mantine/core';
+import { Button, Paper, Title, useMantineTheme, Text, TextInput, Checkbox, Group, Box } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import '../styles/main/main.css'
 
 const data = [
@@ -62,6 +63,43 @@ function Card({ image, title, category, direct }: CardProps) {
   );
 }
 
+function contactForm() {
+  const form = useForm({
+    initialValues: {
+      email: '',
+      termsOfService: false, 
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Неверный email'),
+      termsOfService: (value) => (value === true ? null : 'Необходимо подтвердить согласие'),
+    },
+  });
+
+  return (
+    <Box maw={340} mx="auto">
+      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <TextInput
+          withAsterisk
+          label="Email"
+          placeholder="your@email.com"
+          {...form.getInputProps('email')}
+        />
+
+        <Checkbox
+          mt="md"
+          label="Я согласен на обработку персональных данных"
+          {...form.getInputProps('termsOfService', { type: 'checkbox' })}
+        />
+
+        <Group justify="flex-end" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </form>
+    </Box>
+  );
+}
+
 function MainBody() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
@@ -71,18 +109,35 @@ function MainBody() {
     </Carousel.Slide>
   ));
 
+  const autoplay = useRef(Autoplay({ delay: 2000 }));
+
   return (
-    <div className='main-main-container'>
-      <Carousel 
-        slideSize= "80%"
-        slideGap={{ base: 'xl', sm: 3 }}
-        align="center"
-        loop 
-        withIndicators
-      >
-        {slides}
-      </Carousel>
-    </div>
+    <main className='main-main-container'>
+      <div className='main-carousele-container'>
+        <Carousel 
+          slideSize= "80%"
+          slideGap={{ base: 'xl', sm: 3 }}
+          align="center"
+          loop 
+          withIndicators
+          plugins={[autoplay.current]}
+          onMouseEnter={autoplay.current.stop}
+          onMouseLeave={autoplay.current.reset}
+        >
+          {slides}
+        </Carousel>
+      </div>
+
+      <div className='main-contact-form-container'>
+        <div className='main-contact-form'> 
+          {contactForm()} 
+        </div>
+        <div className='contact-form-text'>
+          <h1>Свяжитесь с нами!</h1>
+        </div>
+      </div>
+
+    </main>
 
   );
 }

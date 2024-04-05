@@ -5,8 +5,22 @@
   margin: 0 auto;
   position: relative;
   font-family: "Titillum Web", sans-serif;
-  border-bottom: 1px solid white;
   z-index: 1;
+}
+
+.main-contact-form-container{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  background-color: bisque;
+
+}
+.main-contact-form {
+  flex: 1;
+  /* Дополнительные стили для контейнера карусели */
+}
+.contact-form-text {
+  flex: 2;
 }
 
 .card {
