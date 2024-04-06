@@ -1,7 +1,7 @@
 import React from 'react'
-import MainHeader from './components/mainHeader';
-import MainBody from './components/mainBody';
-import MainFooter from './components/mainFooter';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/home';
+import AboutPage from './pages/about';
 
 function App() {
 
@@ -9,9 +9,12 @@ function App() {
 
 <div className="App">
     
-    <MainHeader/>
-    <MainBody/>
-    <MainFooter/>
+<Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+  </Router>
  
 </div>
   );

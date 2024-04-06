@@ -3,6 +3,7 @@ import {FaBars, FaTimes} from 'react-icons/fa'
 import { IoLogIn } from "react-icons/io5";
 import logoImage from '../img/logo.jpg'
 import '../styles/header.css';
+import { Link } from 'react-router-dom';
 
 const MainHeader = function () {
 
@@ -17,19 +18,19 @@ const MainHeader = function () {
         <div className='header-container'>
 
                 <div className='header-left'>
-                    <a href="#" className="header-logo-action">
-                    <img src={logoImage} alt='Logo' className="header-logo"/>
-                    <div className='header-text'>
-                        <span>Речной Порт</span>
-                        <span>"Волга"</span>
-                    </div>
-                    </a>
+                    <Link to="/" className="header-logo-action">
+                        <img src={logoImage} alt='Logo' className="header-logo"/>
+                        <div className='header-text'>
+                            <span>Речной Порт</span>
+                            <span>"Волга"</span>
+                        </div>
+                    </Link>
                 </div>
                 
                 <div className="header-mid">
                     <nav className='main-nav' ref ={navRef}>
                         <ul className='main-nav-menu'>
-                            <li className='main-header-item'><a href="#">О нас</a></li>
+                            <li className='main-header-item'><Link to="/about">О нас</Link></li>
                             <li className='main-header-item'><a href="#">Клиентам</a></li>
                             <li className='main-header-item'><a href="#">Регулятивная информация</a></li>
                             <li className='main-header-item'><a href="#">Контакты</a></li>

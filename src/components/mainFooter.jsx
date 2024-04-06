@@ -8,7 +8,7 @@ const MainFooter = function () {
     const navRef = useRef();
 
     return (
-    <header className='main-footer'>
+    <footer className='main-footer'>
         <div className='footer-container'>
 
                 <div className='footer-left'>
@@ -39,7 +39,7 @@ const MainFooter = function () {
                     </a>
                 </div>   
         </div>
-    </header>
+    </footer>
 
     );
 }

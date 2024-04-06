@@ -70,11 +70,7 @@
     font-size: 2rem;
     text-decoration: none;
 }
-.login-button {
-    visibility: visible;
-    opacity: 1;
-    
-}
+
 .footer-right {
     display: flex;
     align-items: center;
