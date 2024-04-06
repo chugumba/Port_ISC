@@ -7,7 +7,6 @@
   font-family: "Titillum Web", sans-serif;
   z-index: 1;
 }
-
 .main-contact-form-container{
   padding: 20px;
   display: flex;
@@ -29,9 +28,6 @@
   border: 1px solid #ccc; 
   border-radius: 10px; 
   box-shadow: 1px 5px 7px rgba(0, 0, 0, 0.8); 
-}
-.main-contact-box {
-  
 }
 .card {
   height: rem(440px);
