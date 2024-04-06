@@ -77,7 +77,7 @@ function contactForm() {
   });
 
   return (
-    <Box maw={340} mx="auto">
+    <Box maw={340} mx="auto" className="main-contact-box">
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <TextInput
           withAsterisk
@@ -130,10 +130,23 @@ function MainBody() {
 
       <div className='main-contact-form-container'>
         <div className='main-contact-form'> 
-          {contactForm()} 
+          <Paper shadow="md" radius="lg" p="xl" className='main-contact-paper'>
+            {contactForm()} 
+          </Paper>
         </div>
         <div className='contact-form-text'>
-          <h1>Свяжитесь с нами!</h1>
+        <Paper shadow="md" radius="lg" p="xl" className='main-contact-paper'>
+              <Text>
+                <h1>Свяжитесь с нами!</h1>
+                <h3>Наш центр по работе с клиентами обеспечивает простой
+                  и своевременный доступ к услугам компании
+                </h3>
+                <h3>
+                  Вы можете оставить свои контактные данные в форме или
+                  связаться с нами по почте или контактному телефону
+                </h3>
+              </Text> 
+          </Paper>
         </div>
       </div>
 

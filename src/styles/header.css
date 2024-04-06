@@ -2,14 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,900;1,900&display=swap');
 
 .main-header {
-  color: white;
-  min-width: 320px;
-  max-width: 1440px;
-  margin: 0 auto;
-  position: relative;
-  font-family: "Titillum Web", sans-serif;
-  border-bottom: 1px solid white;
-
+  background-color: cornflowerblue;
+  border-bottom: 3px solid white;
 }
 
 .header-container {
@@ -17,6 +11,12 @@
     padding: 10px;
     justify-content: space-between; 
     align-items: center;
+    color: white;
+    min-width: 320px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    font-family: "Titillum Web", sans-serif;
 }
 
 .header-left {
@@ -110,7 +110,7 @@
 		height: 100%;
 		width: 100%;
 		display: flex;
-		background-color: deepskyblue;
+		background-color: cornflowerblue;
 		transition: 1s;
         z-index: 10;
         visibility: hidden;
