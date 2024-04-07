@@ -2,12 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,900;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 
-.main-header {
-  background: linear-gradient(to left, #1e90ff, lightblue);
-  border-bottom: 3px solid white;
+.main-footer {
+    background: -webkit-gradient(linear, left top, right top, color-stop(9.9%, #233561), to(rgba(0, 125, 197, 0.94)));
+    border-top: 3px solid white;
+    margin-top: auto;
 }
 
-.header-container {
+.footer-container {
     display: flex;
     padding: 10px;
     justify-content: space-between; 
@@ -20,7 +21,8 @@
     font-family: "Montserrat", sans-serif;
 }
 
-.header-left {
+
+.footer-left {
     display: flex;
     align-items: center;
     line-height: 1.4rem;
@@ -28,72 +30,55 @@
     font-size: 1.1rem;
   }
 
-.header-logo-action {
+.footer-logo-action {
     text-decoration: none;
     display: flex;
     align-items: center;
     color: inherit;
 }
 
-.header-logo {
+.footer-logo {
     padding: 5px;
     height: 2.7em; 
 }
 
-.main-nav {
-    display: flex;
-    justify-content: center;
-}
-  
-.main-nav-menu {
-    list-style: none; 
-    padding: 0;
-    display: flex; 
-    align-items: center;
-}
-.header-text {
+.footer-text {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
-  }  
-.main-header-item {
+}  
+.footer-mid{
+    padding-top: 10px;
+}
+
+.main-footer-item {
     margin: 0 10px; 
 }
 
-.main-header-item a {
+.main-footer-item a {
     text-decoration: none;
     color: inherit;
     font-weight: bold;
     transition: color 1s ease;
 }
 
-.main-header-item a:hover {
-    color: #000080;
-}
-
-.nav-button {
+.git-button {
     padding: 5px;
     cursor: pointer;
     background: transparent;
     border: none;
-    outline: none;
-    color: inherit;
-    visibility: hidden;
-    opacity: 0;
+    color: white;
     font-size: 2rem;
+    text-decoration: none;
 }
-.login-button {
-    visibility: visible;
-    opacity: 1;
-    
-}
-.header-right {
+
+.footer-right {
     display: flex;
     align-items: center;
 }
 @media only screen and ( max-width: 1024px) {
     
-    .header-container {
+    .footer-container {
         padding-left: 10px;
         padding-right: 10px;
     }
