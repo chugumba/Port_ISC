@@ -49,7 +49,7 @@ const MainHeader = function () {
                         <FaBars/>
                     </button>
                     
-                    <Link to='login' className="nav-button login-button">
+                    <Link to='/login' className="nav-button login-button">
                         <IoLogIn/>
                     </Link>
 

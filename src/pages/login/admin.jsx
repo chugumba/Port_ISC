@@ -2,7 +2,7 @@ import React from 'react';
 import MainHeader from '../../components/mainHeader';
 import MainFooter from '../../components/mainFooter';
 
-const LoginPage = () => {
+const AdminPage = () => {
   return (
     <>
       <MainHeader/>
@@ -17,4 +17,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminPage;
