@@ -5,6 +5,7 @@
 .main-footer {
     background: -webkit-gradient(linear, left top, right top, color-stop(9.9%, #233561), to(rgba(0, 125, 197, 0.94)));
     border-top: 3px solid white;
+    margin-top: auto;
 }
 
 .footer-container {

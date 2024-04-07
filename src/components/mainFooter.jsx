@@ -2,6 +2,7 @@ import React, {useRef} from "react";
 import { FaGithub } from "react-icons/fa";
 import logoImage from '../img/logo.jpg'
 import '../styles/footer.css';
+import { Link } from "react-router-dom";
 
 const MainFooter = function () {
 
@@ -12,13 +13,13 @@ const MainFooter = function () {
         <div className='footer-container'>
 
                 <div className='footer-left'>
-                    <a href="#" className="footer-logo-action">
-                    <img src={logoImage} alt='Logo' className="footer-logo"/>
-                    <div className='footer-text'>
-                        <span>Речной Порт</span>
-                        <span>"Волга"</span>
-                    </div>
-                    </a>
+                    <Link to="/" className="footer-logo-action">
+                        <img src={logoImage} alt='Logo' className="footer-logo"/>
+                        <div className='footer-text'>
+                            <span>Речной Порт</span>
+                            <span>"Волга"</span>
+                        </div>
+                    </Link>
                 </div>
                 
                 <div className="footer-mid">

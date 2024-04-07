@@ -12,21 +12,21 @@ const data = [
       'https://www.marineinsight.com/wp-content/uploads/2023/05/10-Biggest-River-Ports-In-The-World.jpg',
     title: 'Узнайте о нас больше',
     category: 'О нас',
-    direct: "#",
+    direct: "/about",
   },
   {
     image:
       'https://www.marineinsight.com/wp-content/uploads/2023/05/Port-of-Shanghai.jpg',
     title: 'Современный речной порт',
     category: 'Технологии',
-    direct: "#",
+    direct: "/services",
   },
   {
     image:
       'https://wpassets.porttechnology.org/wp-content/uploads/2020/03/25160959/Peel-Ports-workers-Liverpool2.jpg',
     title: 'Работа в дружном коллекитве',
     category: 'Работа',
-    direct: "#",
+    direct: "/vacancies",
   }
 ];
 

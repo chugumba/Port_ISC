@@ -31,11 +31,11 @@ const MainHeader = function () {
                     <nav className='main-nav' ref ={navRef}>
                         <ul className='main-nav-menu'>
                             <li className='main-header-item'><Link to="/about">О нас</Link></li>
-                            <li className='main-header-item'><a href="#">Клиентам</a></li>
-                            <li className='main-header-item'><a href="#">Регулятивная информация</a></li>
-                            <li className='main-header-item'><a href="#">Контакты</a></li>
-                            <li className='main-header-item'><a href="#">Вакансии</a></li>
-                            <li className='main-header-item'><a href="#">Услуги</a></li>
+                            <li className='main-header-item'><Link to="/clients">Клиентам</Link></li>
+                            <li className='main-header-item'><Link to="/reg">Регулятивная информация</Link></li>
+                            <li className='main-header-item'><Link to="/contacts">Контакты</Link></li>
+                            <li className='main-header-item'><Link to="/vacancies">Вакансии</Link></li>
+                            <li className='main-header-item'><Link to="/services">Услуги</Link></li>
                         </ul>
                     <button onClick={showNavbar} className="nav-button nav-close-button">
                         <FaTimes/>

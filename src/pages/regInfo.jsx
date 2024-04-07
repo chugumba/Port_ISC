@@ -2,13 +2,13 @@ import React from 'react';
 import MainHeader from '../components/mainHeader';
 import MainFooter from '../components/mainFooter';
 
-const AboutPage = () => {
+const RegPage = () => {
   return (
     <>
       <MainHeader/>
       
         <div>
-          <h1>О нас</h1>
+          <h1>Регулятивная информация</h1>
           <p>Здесь будет основной контент раздела.</p>
         </div>
       
@@ -17,4 +17,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+export default RegPage;
