@@ -8,13 +8,13 @@ import ContactsPage from './pages/contacts';
 import VacanciesPage from './pages/vacancies';
 import ServicesPage from './pages/services';
 import AdminPage from './pages/login/admin';
+import LoginPage from './pages/login/login';
 
 function App() {
 
   return (
 
 <div className="App">
-<SuperTokensWrapper>
   <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -25,9 +25,9 @@ function App() {
           <Route path='/vacancies' element={<VacanciesPage/>}/>
           <Route path='/services' element={<ServicesPage/>}/>
           <Route path='/admin' element={<AdminPage/>}/>
+          <Route path='/login' element={<LoginPage/>}/>
         </Routes>
   </Router>
-  </SuperTokensWrapper>
 </div>
   );
 }
