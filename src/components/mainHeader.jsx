@@ -49,9 +49,9 @@ const MainHeader = function () {
                         <FaBars/>
                     </button>
                     
-                    <button className="nav-button login-button">
+                    <Link to='/login' className="nav-button login-button">
                         <IoLogIn/>
-                    </button>
+                    </Link>
 
                 </div>
                 

@@ -3,6 +3,7 @@ import { FaGithub } from "react-icons/fa";
 import logoImage from '../img/logo.jpg'
 import '../styles/footer.css';
 import { Link } from "react-router-dom";
+import { Button} from '@mantine/core';
 
 const MainFooter = function () {
 
@@ -23,8 +24,12 @@ const MainFooter = function () {
                 </div>
                 
                 <div className="footer-mid">
+                    <Button  variant="transparent" color="white" justify="left" fullWidth onClick={() => window.location.href = `tel:${"mpryanishnikov02@gmail.com"}`}>
                     <p> Наш телефон: +79999999999</p>
+                    </Button>
+                    <Button  variant="transparent" color="white" justify="left" fullWidth onClick={() => window.location.href = `mailto:${"mpryanishnikov02@gmail.com"}`}>
                     <p>Почта: mpryanishnikov02@gmail.com</p>
+                    </Button>
                     <p style={{color: '#9a9a9a'}}>
                         Данный является выпускной работой и
                         не предоставляет коммерческих услуг.
