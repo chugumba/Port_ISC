@@ -10,10 +10,10 @@ import {
   Group,
   Button,
 } from '@mantine/core';
-import { useEffect } from 'react';
 import '../../styles/login/login.css';
 import MainHeader from '../../components/mainHeader';
 import MainFooter from '../../components/mainFooter';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
 
@@ -37,7 +37,9 @@ export default function LoginPage() {
           <Group justify="space-between" mt="lg">
             <Checkbox label="Запомнить меня" />
             <Anchor component="button" size="sm">
-              Забыли пароль?
+              <Link to='/login/forgot'>
+                Забыли пароль?
+              </Link>
             </Anchor>
           </Group>
           <Button fullWidth mt="xl">
