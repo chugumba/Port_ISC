@@ -18,7 +18,7 @@ import {
   export default function ForgotPassword() {
     return (
       <Container size={460} my={30}>
-        <Title className="title" ta="center">
+        <Title className="title-login" ta="center">
           Забыли пароль?
         </Title>
         <Text c="dimmed" fz="sm" ta="center">

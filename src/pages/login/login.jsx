@@ -21,7 +21,7 @@ export default function LoginPage() {
     <>
       <MainHeader/>
       <Container size={420} my={40}>
-        <Title ta="center" className="title">
+        <Title ta="center" className="title-login">
           Авторизация
         </Title>
         <Text c="dimmed" size="sm" ta="center" mt={5}>
