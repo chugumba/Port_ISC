@@ -28,6 +28,7 @@ function App() {
           <Route path='/admin' element={<AdminPage/>}/>
           <Route path='/login' element={<LoginPage/>}/>
           <Route path='/login/forgot' element={<ForgotPassword/>}/>
+          <Route path='/login/admin' element={<AdminPage/>}/>
         </Routes>
   </Router>
 </div>
