@@ -33,7 +33,7 @@ export default function LoginPage() {
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput label="Email" placeholder="you@mail.ru" required />
-          <PasswordInput label="Пароль" placeholder="Ваш пароль" required mt="md" />
+          <PasswordInput label="Пароль" placeholder="Ваш пароль" required mt="md"/>
           <Group justify="space-between" mt="lg">
             <Checkbox label="Запомнить меня" />
             <Anchor component="button" size="sm">
