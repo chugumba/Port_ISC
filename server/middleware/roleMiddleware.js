@@ -17,11 +17,11 @@ module.exports = function (roles) {
             }
             let {roles: userRoles} = jwt.verify(token, secret)
             let hasRole = false
-
+            //Костыль, если передаётся не массив, то преобразует
             if (!Array.isArray(userRoles)) {
                 userRoles = [userRoles];
             }
-            
+
             userRoles.forEach(role => {
                 if (roles.includes(role)) {
                     hasRole = true
