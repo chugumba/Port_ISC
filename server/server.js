@@ -1,19 +1,23 @@
 const express = require('express');
 const cors = require('cors');
-//Пути
-const getDBRoute = require('./routes/getDB');
-const adminRoute = require('./routes/admin');
+// Пути
+const adminRoute = require('./routes/login');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const PORT = 5000;
 
-//Взаимодействие с БД
-app.use('/getDB', getDBRoute);
-//Пустой путь
-app.use('/admin', adminRoute);
+// Путь для авторизации
+app.use('/login', adminRoute);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const start = async () => {
+  try {
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+};
+
+start();
