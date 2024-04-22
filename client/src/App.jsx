@@ -10,6 +10,7 @@ import ServicesPage from './pages/services';
 import TestPage from './pages/login/test';
 import LoginPage from './pages/login/login';
 import ForgotPassword from './pages/login/forgotPass';
+import AdminPage from './pages/login/admin';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path='/services' element={<ServicesPage/>}/>
           <Route path='/login' element={<LoginPage/>}/>
           <Route path='/login/forgot' element={<ForgotPassword/>}/>
+          <Route path='/admin' element={<AdminPage/>}/>
           <Route path='/test' element={<TestPage/>}/>
         </Routes>
   </Router>

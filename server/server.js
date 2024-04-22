@@ -1,16 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 // Пути
-const adminRoute = require('./routes/login');
+const loginRoute = require('./routes/login');
 
 const app = express();
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 
 const PORT = 5000;
 
 // Путь для авторизации
-app.use('/login', adminRoute);
+app.use('/login', loginRoute);
+
 
 const start = async () => {
   try {

@@ -5,6 +5,7 @@ const bcrypt = require ('bcryptjs');
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
 const {secret} = require("../configs/secret")
+const userService = require('../service/userService');
 
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -21,25 +22,18 @@ class authController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
+
             const { username, password, role } = req.body;
-            const [candidates] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
-            if (candidates.length > 0) {
-                return res.status(400).json({ message: "Пользователь с таким именем уже существует" });
-            }
-            const hashPassword = bcrypt.hashSync(password, 7);
-            const [roles] = await db.query('SELECT * FROM roles WHERE name = ?', [role]);
-            //Сделать так, чтобы при отсутствии роли в списке она добавлялась
-            if (roles.length <= 0) {
-                return res.status(400).json({ message: "Роль пользователя не найдена" });
-            }
-            await db.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashPassword, role]);
+            const userData = await userService.registration(username, password, role);
             
-            return res.json({ message: "Пользователь успешно зарегистрирован" });
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
         } catch (e) {
             console.error(e);
             res.status(400).json({ message: 'Registration error' });
         }
     }
+
     async login(req, res) {
         try {
             const {username, password} = req.body
@@ -57,6 +51,38 @@ class authController {
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'Login error'})
+        }
+    }
+    
+    async logout(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies;
+            const token = await userService.logout(refreshToken);
+            res.clearCookie('refreshToken');
+            return res.json(token);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async activate(req, res, next) {
+        try {
+            const activationLink = req.params.link;
+            await userService.activate(activationLink);
+            return res.redirect(process.env.CLIENT_URL);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async refresh(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies;
+            const userData = await userService.refresh(refreshToken);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
+        } catch (e) {
+            next(e);
         }
     }
 

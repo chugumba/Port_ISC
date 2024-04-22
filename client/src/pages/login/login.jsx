@@ -21,22 +21,21 @@ export default function LoginPage() {
   const handleLogin = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const email = formData.get('email');
+    const username = formData.get('username');
     const password = formData.get('password');
     const remember = formData.get('remember');
 
     try {
-      const response = await axios.post('http://localhost:5000/login', {
-        email,
+      const response = await axios.post('http://localhost:5000/login/login', {
+        username,
         password,
         remember,
       });
 
       console.log(response.data);
-      // Здесь можно добавить логику обработки успешного входа
+      
     } catch (error) {
       console.error(error);
-      // Здесь можно добавить логику обработки ошибки входа
     }
   };
 
@@ -56,7 +55,7 @@ export default function LoginPage() {
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <form onSubmit={handleLogin}>
-            <TextInput label="Email" placeholder="you@mail.ru" name='email' required />
+            <TextInput label="Email" placeholder="you@mail.ru" name='username' required />
             <PasswordInput label="Пароль" placeholder="Ваш пароль" name='password' required mt="md"/>
             <Group justify="space-between" mt="lg">
               <Checkbox label="Запомнить меня" name='remember'/>
