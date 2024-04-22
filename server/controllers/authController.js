@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
 const {secret} = require("../configs/secret")
 const userService = require('../service/userService');
+const ApiError = require('../exceptions/apiError');
 
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -16,11 +17,11 @@ const generateAccessToken = (id, roles) => {
 }
 
 class authController {
-    async registration(req, res) {
+    async registration(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка при регистрации", errors})
+                return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
             }
 
             const { username, password, role } = req.body;
@@ -29,27 +30,19 @@ class authController {
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData);
         } catch (e) {
-            console.error(e);
+            next(e);
             res.status(400).json({ message: 'Registration error' });
         }
     }
 
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const {username, password} = req.body
-            const [users] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
-            const user = users[0];
-            if (!user) {
-                return res.status(400).json({message: `Пользователь ${username} не найден`});
-            }
-            const validPassword = bcrypt.compareSync(password, user.password)
-            if (!validPassword) {
-                return res.status(400).json({message: `Введен неверный пароль`})
-            }
-            const token = generateAccessToken(user._id, user.role)
-            return res.json({token})
+            const userData = await userService.login(username, password);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
         } catch (e) {
-            console.log(e)
+            next(e);
             res.status(400).json({message: 'Login error'})
         }
     }
@@ -65,15 +58,6 @@ class authController {
         }
     }
 
-    async activate(req, res, next) {
-        try {
-            const activationLink = req.params.link;
-            await userService.activate(activationLink);
-            return res.redirect(process.env.CLIENT_URL);
-        } catch (e) {
-            next(e);
-        }
-    }
 
     async refresh(req, res, next) {
         try {
@@ -88,8 +72,8 @@ class authController {
 
     async getUsers(req, res) {
         try {
-            const users = await db.query('SELECT * FROM users');
-            res.json(users)
+            const users = await userService.getAllUsers();
+            return res.json(users);
             
         } catch (e) {
             console.log(e)

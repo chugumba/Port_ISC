@@ -12,8 +12,7 @@ router.post('/registration', [
 router.post('/login', controller.login)
 router.post('/logout', controller.logout)
 
-router.get('/activate/:link', controller.activate)
 router.get('/refresh', controller.refresh)
-router.get('/users', roleMiddleware(["admin"]),controller.getUsers)
+router.get('/users', roleMiddleware(['admin']),controller.getUsers)
 
 module.exports = router
