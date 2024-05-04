@@ -73,7 +73,7 @@ class authController {
     async getUsers(req, res) {
         try {
             const users = await userService.getAllUsers();
-            return res.json(users);
+            return res.json(users[0]);
             
         } catch (e) {
             console.log(e)

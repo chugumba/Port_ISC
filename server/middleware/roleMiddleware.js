@@ -14,7 +14,7 @@ module.exports = function (roles) {
         try {
             const token = req.headers.authorization.split(' ')[1]
             if (!token) {
-                return res.status(403).json({message: "Пользователь не авторизован"})
+                return res.status(401).json({message: "Пользователь не авторизован"})
             }
             let {role: userRoles} = tokenService.validateAccessToken(token);
             //all - доступ всем авторизованным пользователям
@@ -38,7 +38,7 @@ module.exports = function (roles) {
             next();
         } catch (e) {
             console.log(e)
-            return res.status(403).json({message: "Пользователь не авторизован"})
+            return res.status(401).json({message: "Пользователь не авторизован"})
         }
     }
 };
