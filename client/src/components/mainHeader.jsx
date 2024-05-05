@@ -1,17 +1,28 @@
-import React, {useRef} from "react";
+import React, {useRef, useContext} from "react";
 import {FaBars, FaTimes} from 'react-icons/fa'
 import { IoLogIn } from "react-icons/io5";
 import logoImage from '../img/logo.jpg'
 import '../styles/header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
+import {Context} from "../App";
 
 const MainHeader = function () {
 
     const navRef = useRef();
-    
+    const {store} = useContext(Context);
+    const navigate = useNavigate();
+
     const showNavbar = () => {
         navRef.current.classList.toggle('responsive-nav');
     }
+    
+    const handleLoginClick = () => {
+        if (!store.user.role) {
+          navigate("/login");
+        } else {
+          navigate(`/${store.user.role}`);
+        }
+      };
 
     return (
     <header className='main-header'>
@@ -49,9 +60,9 @@ const MainHeader = function () {
                         <FaBars/>
                     </button>
                     
-                    <Link to='/login' className="nav-button login-button">
-                        <IoLogIn/>
-                    </Link>
+                <button onClick={handleLoginClick} className="nav-button login-button">
+                    <IoLogIn />
+                </button>
 
                 </div>
                 
