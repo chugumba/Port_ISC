@@ -47,12 +47,12 @@ import { observer } from "mobx-react-lite";
         <Title ta="center" className="title-login">
           Авторизация
         </Title>
-        <Text c="dimmed" size="sm" ta="center" mt={5}>
+        {/*<Text c="dimmed" size="sm" ta="center" mt={5}>
           Ещё нет аккаунта?{' '}
           <Anchor size="sm" component="button">
             Создать аккаунт
           </Anchor>
-        </Text>
+  </Text>*/}
 
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
             <TextInput label="Логин" placeholder="login" name='username' required 
@@ -65,14 +65,14 @@ import { observer } from "mobx-react-lite";
             value={password}
             type="password"
             />
-            <Group justify="space-between" mt="lg">
+            {/*<Group justify="space-between" mt="lg">
               <Checkbox label="Запомнить меня" name='remember'/>
               <Anchor component="button" size="sm">
                 <Link to='/login/forgot'>
                   Забыли пароль?
                 </Link>
               </Anchor>
-            </Group>
+</Group>*/}
             <Button fullWidth mt="xl" type='submit' onClick={handleLogin}>
               Вход
             </Button>

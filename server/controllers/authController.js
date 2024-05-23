@@ -30,8 +30,8 @@ class authController {
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData);
         } catch (e) {
-            next(e);
-            res.status(400).json({ message: 'Registration error' });
+            return next(e);
+            //res.status(400).json({ message: 'Registration error' });
         }
     }
 
@@ -42,8 +42,8 @@ class authController {
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData);
         } catch (e) {
-            next(e);
-            res.status(400).json({message: 'Login error'})
+            return next(e);
+            //res.status(400).json({message: 'Login error'})
         }
     }
     
@@ -54,7 +54,7 @@ class authController {
             res.clearCookie('refreshToken');
             return res.json(token);
         } catch (e) {
-            next(e);
+            return next(e);
         }
     }
 
@@ -66,7 +66,7 @@ class authController {
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData);
         } catch (e) {
-            next(e);
+            return next(e);
         }
     }
 

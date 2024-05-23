@@ -50,6 +50,7 @@ const App = observer(() => {
             <Route path='/contacts' element={<ContactsPage/>}/>
             <Route path='/vacancies' element={<VacanciesPage/>}/>
             <Route path='/services' element={<ServicesPage/>}/>
+            
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/login/forgot' element={<ForgotPassword/>}/>
             

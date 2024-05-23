@@ -1,8 +1,11 @@
+import React, { useState } from 'react';
 import { TextInput, Textarea, SimpleGrid, Group, Title, Button, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import React from 'react';
+import contact from "../services/Contact";
 
 export function GetInTouchSimple() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const form = useForm({
     initialValues: {
       name: '',
@@ -11,45 +14,41 @@ export function GetInTouchSimple() {
       message: '',
     },
     validate: {
-      name: (value) => value.trim().length < 2,
-
-        email: (value) => {
-          // Если email пустой, но телефон заполнен, валидация не требуется
-          if (!value && form.values.phone) return null;
-      
-          // Если email заполнен, проверяем его на соответствие паттерну
-          if (value && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
-            return 'Некорректный email';
-          }
-      
-          // Если оба поля пустые, требуется заполнить хотя бы одно из них
-          if (!value && !form.values.phone) {
-            return 'Email или номер телефона обязателен к заполнению';
-          }
-      
-          return null; // Если нет ошибок, возвращаем null
-        },
-        phone: (value) => {
-          // Если номер телефона пустой, но email заполнен, валидация не требуется
-          if (!value && form.values.email) return null;
-      
-          // Если номер телефона заполнен, проверяем его на соответствие паттерну
-          if (value && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(value)) {
-            return 'Некорректный номер телефона';
-          }
-      
-          // Если оба поля пустые, требуется заполнить хотя бы одно из них
-          if (!value && !form.values.email) {
-            return 'Email или номер телефона обязателен к заполнению';
-          }
-      
-          return null; // Если нет ошибок, возвращаем null
-        },
+      name: (value) => value.trim().length < 2 ? 'Имя должно содержать как минимум 2 символа' : null,
+      email: (value) => {
+        if (!value && form.values.phone) return null;
+        if (value && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+          return 'Некорректный email';
+        }
+        if (!value && !form.values.phone) {
+          return 'Email или номер телефона обязателен к заполнению';
+        }
+        return null;
       },
+      phone: (value) => {
+        if (!value && form.values.email) return null;
+        if (value && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(value)) {
+          return 'Некорректный номер телефона';
+        }
+        if (!value && !form.values.email) {
+          return 'Email или номер телефона обязателен к заполнению';
+        }
+        return null;
+      },
+    },
   });
 
+  const handleSubmit = (values) => {
+    contact.send(values.name, values.email, values.phone, values.message);
+    setIsSubmitted(true); // Обновляем состояние после успешной отправки
+  };
+
+  if (isSubmitted) {
+    return <Text ta="center">Спасибо, наш специалист скоро с вами свяжется</Text>;
+  }
+
   return (
-    <form onSubmit={form.onSubmit(() => {})}>
+    <form onSubmit={form.onSubmit(handleSubmit)}> 
       <Title
         order={2}
         size="h1"
@@ -59,9 +58,9 @@ export function GetInTouchSimple() {
       >
         Свяжитесь с нами
       </Title>
-    <Text ta="center">
+      <Text ta="center">
         Ответим в течении 2-ух рабочих дней
-    </Text>
+      </Text>
       <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
         <TextInput
          withAsterisk

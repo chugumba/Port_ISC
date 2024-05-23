@@ -6,15 +6,14 @@ import { observer } from "mobx-react-lite";
 
 function AdminPage() {
   const { store } = useContext(Context);
-  const navigate = useNavigate();
-
-  useEffect(() => { store.getUser() }, []);
 
   return (
     <div>
       <h1>Admin page</h1>
+      <button onClick={() => store.logout()}>Выйти</button>
     </div>
   );
 }
 
 export default observer(AdminPage);
+
