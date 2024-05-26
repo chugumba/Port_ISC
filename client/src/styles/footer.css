@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,900;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+.main-footer {
+    background: -webkit-gradient(linear, left top, right top, color-stop(9.9%, #233561), to(rgba(0, 125, 197, 0.94)));
+    border-top: 3px solid white;
+    margin-top: auto;
+}
+
+.footer-container {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between; 
+    align-items: center;
+    color: white;
+    min-width: 320px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    line-height: 1.4rem;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+
+.footer-logo-action {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+
+.footer-logo {
+    padding: 5px;
+    height: 2.7em; 
+}
+
+.footer-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}  
+.footer-mid{
+    padding-top: 10px;
+}
+
+.main-footer-item {
+    margin: 0 10px; 
+}
+
+.main-footer-item a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    transition: color 1s ease;
+}
+
+.git-button {
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+@media only screen and ( max-width: 1024px) {
+    
+    .footer-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .nav-button {
+        visibility: visible;
+        opacity: 1    
+    }
+
+    .main-nav {
+        position: fixed;
+		top: -100vh;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		background-image: linear-gradient(to left, #1e90ff, lightblue);
+		transition: 1s;
+        z-index: 10;
+        visibility: hidden;
+    }
+    
+    .main-nav-menu {
+        flex-direction: column; 
+        align-items: center;
+		justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .responsive-nav {
+        transform: translateY(100vh);
+        visibility: visible;
+    }
+
+    .nav-close-button {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+	}
+ 
+	nav a {
+		font-size: 1.5rem;
+	}
+}

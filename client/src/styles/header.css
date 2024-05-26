@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,900;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+.main-header {
+  background: linear-gradient(to left, #1e90ff, lightblue);
+  border-bottom: 3px solid white;
+}
+
+.header-container {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between; 
+    align-items: center;
+    color: white;
+    min-width: 320px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    font-family: "Montserrat", sans-serif;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    line-height: 1.4rem;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+
+.header-logo-action {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+
+.header-logo {
+    padding: 5px;
+    height: 2.7em; 
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+}
+  
+.main-nav-menu {
+    list-style: none; 
+    padding: 0;
+    display: flex; 
+    align-items: center;
+}
+.header-text {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }  
+.main-header-item {
+    margin: 0 10px; 
+}
+
+.main-header-item a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    transition: color 1s ease;
+}
+
+.main-header-item a:hover {
+    color: #000080;
+}
+
+.nav-button {
+    padding: 5px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    visibility: hidden;
+    opacity: 0;
+    font-size: 2rem;
+}
+.login-button {
+    visibility: visible;
+    opacity: 1;
+    
+}
+.header-right {
+    display: flex;
+    align-items: center;
+}
+@media only screen and ( max-width: 1024px) {
+    
+    .header-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .nav-button {
+        visibility: visible;
+        opacity: 1    
+    }
+
+    .main-nav {
+        position: fixed;
+		top: -100vh;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		background-image: linear-gradient(to left, #1e90ff, lightblue);
+		transition: 1s;
+        z-index: 10;
+        visibility: hidden;
+    }
+    
+    .main-nav-menu {
+        flex-direction: column; 
+        align-items: center;
+		justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .responsive-nav {
+        transform: translateY(100vh);
+        visibility: visible;
+    }
+
+    .nav-close-button {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+	}
+ 
+	nav a {
+		font-size: 1.5rem;
+	}
+}
