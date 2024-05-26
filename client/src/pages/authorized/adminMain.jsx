@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import { Context } from "../../App";
-import { useNavigate } from 'react-router-dom';
+import { UsersTable } from '../../components/auth/admin/UsersTable';
 import { observer } from "mobx-react-lite";
 
 function AdminPage() {
@@ -11,6 +11,8 @@ function AdminPage() {
     <div>
       <h1>Admin page</h1>
       <button onClick={() => store.logout()}>Выйти</button>
+
+      <UsersTable/>
     </div>
   );
 }
