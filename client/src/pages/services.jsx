@@ -7,10 +7,7 @@ const ServicesPage = () => {
     <>
       <MainHeader/>
       
-        <div>
-          <h1>Услуги</h1>
-          <p>Здесь будет основной контент раздела.</p>
-        </div>
+
       
       <MainFooter/>
     </>

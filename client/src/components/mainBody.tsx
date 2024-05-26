@@ -4,6 +4,7 @@ import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import { Button, Paper, Title, useMantineTheme, Text, TextInput, Checkbox, Group, Box } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/main/main.css';
 import {GetInTouchSimple} from './contactForm';
 
@@ -56,8 +57,8 @@ function Card({ image, title, category, direct }: CardProps) {
           {title}
         </Title>
       </div>
-      <Button variant="white" color="dark" component="a"
-      href = {direct}>
+      <Button variant="white" color="dark" component={Link}
+      to = {direct}>
         Узнать больше 
       </Button>
     </Paper>
