@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+
+
 import HomePage from './pages/home';
 import AboutPage from './pages/about';
 import ClientsPage from './pages/clients';
@@ -7,11 +9,13 @@ import RegPage from './pages/regInfo';
 import ContactsPage from './pages/contacts';
 import VacanciesPage from './pages/vacancies';
 import ServicesPage from './pages/services';
-import TestPage from './pages/login/test';
 import LoginPage from './pages/login/login';
 import ForgotPassword from './pages/login/forgotPass';
 import AdminPage from './pages/authorized/adminMain';
 import SecurityPage from './pages/authorized/securityMain';
+
+/*Возможно стоит добавить номер телефона для пользователей в БД*/ 
+
 import Store from "./store/store";
 import { observer } from "mobx-react-lite";
 
@@ -56,7 +60,6 @@ const App = observer(() => {
             
             <Route path='/admin' element={store.user.role === 'admin' ? <AdminPage /> : <Navigate to="/login" />} />
             <Route path='/security' element={store.user.role === 'security' ? <SecurityPage /> : <Navigate to="/login" />} />
-            <Route path='/test' element={<TestPage/>}/>
           </Routes>
         </Router>
       </div>
