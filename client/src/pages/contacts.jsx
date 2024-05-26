@@ -4,6 +4,13 @@ import MainHeader from '../components/mainHeader';
 import MainFooter from '../components/mainFooter';
 import { Contacts } from '../components/Contacts';
 import classes from '../styles/ContactsPage.module.css';
+import CEO from '../img/contacts/CEO.jpg'
+import logistics from '../img/contacts/logistics.jpg'
+import engineer from '../img/contacts/engineer.jpg'
+import chancellery from '../img/contacts/chancellery.jpg'
+import press from '../img/contacts/press.jpg'
+import commerce from '../img/contacts/commerce.jpg'
+
 
 const ContactsPage = () => {
   return (
@@ -22,7 +29,7 @@ const ContactsPage = () => {
               name="Иван Иванов" 
               email="ivanov@example.com" 
               phone="+7 123 456 7890" 
-              avatar="https://example.com/avatar.jpg" 
+              avatar={CEO} 
             />
             <Divider my="lg" size="md"/>
             <Contacts
@@ -30,7 +37,7 @@ const ContactsPage = () => {
               name="Петр Петров" 
               email="petrov@example.com" 
               phone="+7 987 654 3210" 
-              avatar="https://example.com/avatar2.jpg" 
+              avatar={logistics}
             />
             <Divider my="lg" size="md"/>
             <Contacts
@@ -38,7 +45,7 @@ const ContactsPage = () => {
               name="Сергей Сергеев" 
               email="sergeev@example.com" 
               phone="+7 123 987 6543" 
-              avatar="https://example.com/avatar3.jpg" 
+              avatar={engineer}
             />
           </div>
 
@@ -48,7 +55,7 @@ const ContactsPage = () => {
               name="Мария Смирнова" 
               email="office@example.com" 
               phone="+7 321 654 9870" 
-              avatar="https://example.com/avatar4.jpg" 
+              avatar={chancellery} 
             />
             <Divider my="lg" size="md"/>
             <Contacts
@@ -56,7 +63,7 @@ const ContactsPage = () => {
               name="Алексей Кузнецов" 
               email="press@example.com" 
               phone="+7 654 321 0987" 
-              avatar="https://example.com/avatar5.jpg" 
+              avatar={press}
             />
             <Divider my="lg" size="md"/>
             <Contacts
@@ -64,7 +71,7 @@ const ContactsPage = () => {
               name="Елена Ковалева" 
               email="commercial@example.com" 
               phone="+7 789 012 3456" 
-              avatar="https://example.com/avatar6.jpg" 
+              avatar={commerce} 
             />
           </div>
         </div>
