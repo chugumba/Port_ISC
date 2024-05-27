@@ -20,6 +20,17 @@ class contactController {
       res.status(400).json({ message: 'Error' });
     }
   }
+
+  async vacancies(req, res, next) {
+    try {
+      const result = await db.query('SELECT * FROM vacancies');
+      return res.json(result[0]);
+    } catch (e) {
+      next(e);
+      res.status(400).json({ message: 'Error' });
+    }
+  }
+  
 }
 
 module.exports = new contactController();

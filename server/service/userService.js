@@ -86,7 +86,6 @@ class UserService {
     }
 
     async getAllUsers() {
-        //const users = await db.query('SELECT * FROM users');
         return await db.query('SELECT * FROM users');
     }
 

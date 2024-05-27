@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { TextInput, Textarea, SimpleGrid, Group, Title, Button, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import contact from "../services/Contact";
+import contact from "../services/Unauth";
+import validator from 'validator';
 
 export function GetInTouchSimple() {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+  const [errorMessage, setErrorMessage] = useState('');
+
   const form = useForm({
     initialValues: {
       name: '',
@@ -27,7 +29,7 @@ export function GetInTouchSimple() {
       },
       phone: (value) => {
         if (!value && form.values.email) return null;
-        if (value && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(value)) {
+        if (value && !validator.isMobilePhone(value, 'any', { strictMode: false })) {
           return 'Некорректный номер телефона';
         }
         if (!value && !form.values.email) {
@@ -38,12 +40,18 @@ export function GetInTouchSimple() {
     },
   });
 
-  const handleSubmit = (values) => {
-    contact.send(values.name, values.email, values.phone, values.message);
-    setIsSubmitted(true); // Обновляем состояние после успешной отправки
+  const handleSubmit = async (values) => {
+    try {
+      await contact.send(values.name, values.email, values.phone, values.message);
+      setIsSubmitted(true); 
+      setErrorMessage(''); 
+    } catch (error) {
+      setIsSubmitted(false); 
+      setErrorMessage('Произошла ошибка при отправке формы. Пожалуйста, попробуйте снова.'); 
+    }
   };
 
-  if (isSubmitted) {
+  if (isSubmitted && !errorMessage) {
     return <Text ta="center">Спасибо, наш специалист скоро с вами свяжется</Text>;
   }
 
@@ -61,6 +69,7 @@ export function GetInTouchSimple() {
       <Text ta="center">
         Ответим в течении 2-ух рабочих дней
       </Text>
+      {errorMessage}
       <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
         <TextInput
          withAsterisk
