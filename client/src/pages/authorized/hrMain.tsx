@@ -9,7 +9,7 @@ function AdminPage() {
 
   return (
     <div>
-      <h1>Admin page</h1>
+      <h1>HR page</h1>
       <button onClick={() => store.logout()}>Выйти</button>
       {/*Заготовка для таблицы управления пользователями*/}
       <UsersTable/>
