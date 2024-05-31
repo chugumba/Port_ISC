@@ -1,21 +1,32 @@
 import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import { Context } from "../../App";
-import { UsersTable } from '../../components/auth/admin/UsersTable';
 import { observer } from "mobx-react-lite";
 
-function AdminPage() {
+//Компоненты
+import AuthHeader from "../../components/auth/authHeader.jsx";
+import MainFooter from "../../components/mainFooter";
+import HrVacancies from '../../components/auth/hr/hrVacancies'
+//Навигация
+const navItems = [
+
+  {label: "На главную", link: '/'}
+
+]
+
+
+function HrPage() {
   const { store } = useContext(Context);
 
   return (
     <div>
-      <h1>HR page</h1>
-      <button onClick={() => store.logout()}>Выйти</button>
-      {/*Заготовка для таблицы управления пользователями*/}
-      <UsersTable/>
+      <AuthHeader navItems = {navItems}/>
+      <HrVacancies/>
+      <MainFooter/>
     </div>
   );
-}
 
-export default observer(AdminPage);
+};
+
+export default observer(HrPage);
 

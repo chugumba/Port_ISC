@@ -4,14 +4,12 @@ import { Title, Text, Container, Group, ActionIcon, Paper, Grid, Button, SimpleG
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import { CiMail } from "react-icons/ci";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaEdit, FaTrash } from "react-icons/fa";
 import { useClipboard } from '@mantine/hooks';
-import MainHeader from '../components/mainHeader';
-import MainFooter from '../components/mainFooter';
-import '../styles/vacancies.css';
-import Contact from '../services/Unauth';
+import '../../../styles/vacancies.css';
+import Contact from '../../../services/Unauth';
 
-export default function VacanciesPage() {
+export default function HrPage() {
   const matches = useMediaQuery('(min-width: 768px)');
   const clipboard = useClipboard();
   const [vacancies, setVacancies] = useState([]);
@@ -26,12 +24,20 @@ export default function VacanciesPage() {
       }
     }
     fetchVacancies();
-    
   }, []);
+
+  const handleEdit = (id) => {
+    // Добавьте логику для редактирования вакансии
+    console.log(`Edit vacancy with id: ${id}`);
+  };
+
+  const handleDelete = (id) => {
+    // Добавьте логику для удаления вакансии
+    console.log(`Delete vacancy with id: ${id}`);
+  };
 
   return (
     <>
-      <MainHeader />
       <Container size="lg" className="vacancies-page">
         <Title order={1} align="center" mt="xs" mb="md">Актуальные предложения</Title>
         <Text align="center" mb="xl">Присоединяйтесь к нашему коллективу.</Text>
@@ -43,9 +49,17 @@ export default function VacanciesPage() {
                 <div>
                   <Group position="apart" mb="xs">
                     <Title order={3}>{vacancy.title}</Title>
-                    <ActionIcon size="lg" color="gray" onClick={() => clipboard.copy(`${vacancy.title}\n\n${vacancy.description}\n\nТребования:\n${vacancy.requirements}\n\nМы предлагаем:\n${vacancy.benefits}\n\nКонтактный Email: ${vacancy.contactEmail}\nКонтактный телефон: ${vacancy.contactPhone}`)}>
-                      <TbDeviceDesktopAnalytics />
-                    </ActionIcon>
+                    <Group>
+                      <ActionIcon size="lg" color="blue" onClick={() => handleEdit(vacancy.id)}>
+                        <FaEdit />
+                      </ActionIcon>
+                      <ActionIcon size="lg" color="red" onClick={() => handleDelete(vacancy.id)}>
+                        <FaTrash />
+                      </ActionIcon>
+                      <ActionIcon size="lg" color="gray" onClick={() => clipboard.copy(`${vacancy.title}\n\n${vacancy.description}\n\nТребования:\n${vacancy.requirements}\n\nМы предлагаем:\n${vacancy.benefits}\n\nКонтактный Email: ${vacancy.contactEmail}\nКонтактный телефон: ${vacancy.contactPhone}`)}>
+                        <TbDeviceDesktopAnalytics />
+                      </ActionIcon>
+                    </Group>
                   </Group>
                   <Divider my="sm" />
                   <Text size="sm" mb="sm">{vacancy.description}</Text>
@@ -94,7 +108,6 @@ export default function VacanciesPage() {
           ))}
         </SimpleGrid>
       </Container>
-      <MainFooter />
     </>
   );
 }

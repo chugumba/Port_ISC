@@ -11,7 +11,12 @@ import VacanciesPage from './pages/vacancies';
 import ServicesPage from './pages/services';
 import LoginPage from './pages/login/login';
 import ForgotPassword from './pages/login/forgotPass';
+
+//главные для авторизованных пользователей
 import AdminPage from './pages/authorized/adminMain';
+import FinancesPage from './pages/authorized/financesMain';
+import HrPage from './pages/authorized/hrMain';
+import LogisticsPage from './pages/authorized/logisticsMain';
 import SecurityPage from './pages/authorized/securityMain';
 
 /*Возможно стоит добавить номер телефона для пользователей в БД*/ 
@@ -47,6 +52,7 @@ const App = observer(() => {
       <div className="App">
         <Router>
           <Routes>
+            {/* Пути для неавторизованных пользователй */}
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/clients" element={<ClientsPage />} />
@@ -54,12 +60,17 @@ const App = observer(() => {
             <Route path='/contacts' element={<ContactsPage/>}/>
             <Route path='/vacancies' element={<VacanciesPage/>}/>
             <Route path='/services' element={<ServicesPage/>}/>
-            
+
+            {/* Пути для авторизации */}
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/login/forgot' element={<ForgotPassword/>}/>
-            
+
+            {/* Пути для авторизованных пользователй */}
             <Route path='/admin' element={store.user.role === 'admin' ? <AdminPage /> : <Navigate to="/login" />} />
             <Route path='/security' element={store.user.role === 'security' ? <SecurityPage /> : <Navigate to="/login" />} />
+            <Route path='/finances' element={store.user.role === 'finances' ? <FinancesPage /> : <Navigate to="/login" />} />
+            <Route path='/hr' element={store.user.role === 'hr' ? <HrPage /> : <Navigate to="/login" />} />
+            <Route path='/logistics' element={store.user.role === 'logistics' ? <LogisticsPage /> : <Navigate to="/login" />} />
           </Routes>
         </Router>
       </div>

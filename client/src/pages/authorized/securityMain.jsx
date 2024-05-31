@@ -4,16 +4,16 @@ import { Context } from "../../App";
 import { useNavigate } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
 
-function AdminPage() {
+function SecurityPage() {
   const { store } = useContext(Context);
 
   return (
     <div>
-      <h1>Secutity page</h1>
+      <h1>Security page</h1>
       <button onClick={() => store.logout()}>Выйти</button>
     </div>
   );
 }
 
-export default observer(AdminPage);
+export default observer(SecurityPage);
 
