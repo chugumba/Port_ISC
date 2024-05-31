@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from '@mantine/hooks';
-import { Title, Text, Container, Group, ActionIcon, Paper, Grid, Button, SimpleGrid, Divider, Flex } from '@mantine/core';
+import { Title, Text, Container, Group, ActionIcon, Paper, Grid, Button, SimpleGrid, Divider, Flex, TextInput } from '@mantine/core';
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import { CiMail } from "react-icons/ci";
@@ -9,31 +9,53 @@ import { useClipboard } from '@mantine/hooks';
 import '../../../styles/vacancies.css';
 import Contact from '../../../services/Unauth';
 
+import { HR } from '../../../services/AuthorizedUsers';
+
 export default function HrPage() {
   const matches = useMediaQuery('(min-width: 768px)');
   const clipboard = useClipboard();
   const [vacancies, setVacancies] = useState([]);
+  const [editingVacancyId, setEditingVacancyId] = useState(null);
+  
+  const [vacancyBuf, setVacancyBuf] = useState({
+
+  });
+
+  async function fetchVacancies() {
+    try {
+      const response = await Contact.fetchVacancies();
+      setVacancies(response.data);
+    } catch (error) {
+      console.error('Error fetching vacancies:', error);
+    }
+  }
 
   useEffect(() => {
-    async function fetchVacancies() {
-      try {
-        const response = await Contact.fetchVacancies();
-        setVacancies(response.data);
-      } catch (error) {
-        console.error('Error fetching vacancies:', error);
-      }
-    }
     fetchVacancies();
   }, []);
 
-  const handleEdit = (id) => {
-    // Добавьте логику для редактирования вакансии
-    console.log(`Edit vacancy with id: ${id}`);
+  const handleEdit = (vacancy) => {
+    if(editingVacancyId === null)
+      { 
+        setEditingVacancyId(vacancy.id)
+        setVacancyBuf({ ...vacancy})
+      }
+    else {
+        setEditingVacancyId(null);
+        setVacancyBuf(null);
+    }
   };
 
+  const sendEdit = async () => {
+    await HR.UpdateVacancy(vacancyBuf.id, vacancyBuf.title, vacancyBuf.description, vacancyBuf.requirements, vacancyBuf.benefits, vacancyBuf.contactEmail, vacancyBuf.contactPhone)
+
+    setEditingVacancyId(null)
+    setVacancyBuf(null)
+    fetchVacancies();
+  }
+
   const handleDelete = (id) => {
-    // Добавьте логику для удаления вакансии
-    console.log(`Delete vacancy with id: ${id}`);
+    HR.DeleteVacancy(id);
   };
 
   return (
@@ -48,9 +70,15 @@ export default function HrPage() {
               <Flex direction="column" justify="space-between" style={{ height: '100%' }}>
                 <div>
                   <Group position="apart" mb="xs">
-                    <Title order={3}>{vacancy.title}</Title>
+                    <Title order={3}>                      
+                      {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.title} onChange={(event) => setVacancyBuf({ ...vacancyBuf, title: event.target.value })}/>
+                      ) : (
+                        vacancy.title
+                      )}
+                      </Title>
                     <Group>
-                      <ActionIcon size="lg" color="blue" onClick={() => handleEdit(vacancy.id)}>
+                      <ActionIcon size="lg" color="blue" onClick={() => {handleEdit(vacancy)}}>
                         <FaEdit />
                       </ActionIcon>
                       <ActionIcon size="lg" color="red" onClick={() => handleDelete(vacancy.id)}>
@@ -62,7 +90,11 @@ export default function HrPage() {
                     </Group>
                   </Group>
                   <Divider my="sm" />
-                  <Text size="sm" mb="sm">{vacancy.description}</Text>
+                  {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.description} onChange={(event) => setVacancyBuf({ ...vacancyBuf, description: event.target.value })}/>
+                      ) : (
+                        <Text size="sm" mb="sm">{vacancy.description}</Text>
+                      )}
                   <Divider my="sm" />
                   <Group position="apart" mb="xs">
                     <Text size="sm" weight={500}>Требования:</Text>
@@ -70,7 +102,11 @@ export default function HrPage() {
                       <CgFileDocument />
                     </ActionIcon>
                   </Group>
-                  <Text size="sm" mb="sm">{vacancy.requirements}</Text>
+                  {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.requirements} onChange={(event) => setVacancyBuf({ ...vacancyBuf, requirements: event.target.value })}/>
+                      ) : (
+                        <Text size="sm" mb="sm">{vacancy.requirements}</Text>
+                      )}
                   <Divider my="sm" />
                   <Group position="apart" mb="xs">
                     <Text size="sm" weight={500}>Мы предлагаем:</Text>
@@ -78,32 +114,50 @@ export default function HrPage() {
                       <CgFileDocument />
                     </ActionIcon>
                   </Group>
-                  <Text size="sm" mb="md">{vacancy.benefits}</Text>
+                  {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.benefits} onChange={(event) => setVacancyBuf({ ...vacancyBuf, benefits: event.target.value })}/>
+                      ) : (
+                        <Text size="sm" mb="sm">{vacancy.benefits}</Text>
+                      )}
                 </div>
                 <Divider my="sm" />
                 <Grid>
                   <Grid.Col span={matches ? 6 : 12}>
+                  {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.contactEmail} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactEmail: event.target.value })}/>
+                      ) : (
+                        
                     <Button
                       variant="outline"
                       fullWidth
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
-                      onClick={() => window.location.href = `mailto:${vacancy.contactEmail}`}
+                      //onClick={() => window.location.href = `mailto:${vacancy.contactEmail}`}
                     >
                       <CiMail style={{ marginRight: 8 }} /> {vacancy.contactEmail}
                     </Button>
+                    )}
                   </Grid.Col>
                   <Grid.Col span={matches ? 6 : 12}>
+                  {editingVacancyId === vacancy.id ? (
+                        <TextInput defaultValue={vacancy.contactPhone} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactPhone: event.target.value })}/>
+                      ) : (
                     <Button
                       variant="outline"
                       fullWidth
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
-                      onClick={() => window.location.href = `tel:${vacancy.contactPhone}`}
+                      //onClick={() => window.location.href = `tel:${vacancy.contactPhone}`}
                     >
                       <FaPhone style={{ marginRight: 8 }} /> {vacancy.contactPhone}
                     </Button>
+                      )}
                   </Grid.Col>
                 </Grid>
+                {editingVacancyId === vacancy.id ? (
+                        <Button onClick={() => sendEdit(vacancy)}> Отправить </Button>
+                      ) : (null)
+                }
               </Flex>
+              
             </Paper>
           ))}
         </SimpleGrid>

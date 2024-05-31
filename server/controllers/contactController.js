@@ -1,3 +1,5 @@
+//Контроллер для действий неавторизованного пользователя
+
 const db = require('../models/db');
 const { validationResult } = require('express-validator');
 const ApiError = require('../exceptions/apiError');

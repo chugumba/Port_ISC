@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import AuthHeader from "../../components/auth/authHeader.jsx";
 import MainFooter from "../../components/mainFooter";
 import HrVacancies from '../../components/auth/hr/hrVacancies'
+
 //Навигация
 const navItems = [
 

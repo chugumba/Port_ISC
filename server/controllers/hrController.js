@@ -1,3 +1,5 @@
+//Контроллер для действий HR
+
 const db = require('../models/db');
 const ApiError = require('../exceptions/apiError');
 
@@ -37,7 +39,7 @@ class contactController {
         `UPDATE vacancies SET title = ?, description = ?, requirements = ?, benefits = ?, contactEmail = ?, contactPhone = ? WHERE id = ?`,
         [title, description, requirements, benefits, contactEmail, contactPhone, id]
       );
-  
+
       res.json({ message: 'Vacancy updated successfully' });
     } catch (e) {
       next(e);

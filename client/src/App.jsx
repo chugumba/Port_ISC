@@ -12,14 +12,12 @@ import ServicesPage from './pages/services';
 import LoginPage from './pages/login/login';
 import ForgotPassword from './pages/login/forgotPass';
 
-//главные для авторизованных пользователей
+// Главные для авторизованных пользователей
 import AdminPage from './pages/authorized/adminMain';
 import FinancesPage from './pages/authorized/financesMain';
 import HrPage from './pages/authorized/hrMain';
 import LogisticsPage from './pages/authorized/logisticsMain';
 import SecurityPage from './pages/authorized/securityMain';
-
-/*Возможно стоит добавить номер телефона для пользователей в БД*/ 
 
 import Store from "./store/store";
 import { observer } from "mobx-react-lite";
@@ -52,6 +50,7 @@ const App = observer(() => {
       <div className="App">
         <Router>
           <Routes>
+
             {/* Пути для неавторизованных пользователй */}
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
