@@ -3,7 +3,9 @@
 const db = require('../models/db');
 const ApiError = require('../exceptions/apiError');
 
-class contactController {
+class hrController {
+
+  //Страница вакансий 
 
   async vacanciesAdd(req, res, next) {
     try {
@@ -46,7 +48,34 @@ class contactController {
       res.status(400).json({ message: 'Error' });
     }
   }
+
+  //Страница заявок
+  async applicationsGet(req, res, next) {
+  
+    try {
+      const result = await db.query('SELECT * FROM contact_form_applications');
+      return res.json(result[0]);
+    } catch (e) {
+      next(e);
+      res.status(400).json({ message: 'Error' });
+    }
+
+  }
+
+  async applicationsUpdate (req, res, next) {
+  
+    const {status, id} = req.body;
+
+    try {
+      const result = await db.query('UPDATE contact_form_applications SET status = ? WHERE id = ?', [status, id]);
+      return res.json ({message: 'Applicatuion updated successfully'});
+    } catch (e) {
+      next(e);
+      res.status(400).json({ message: 'Error' });
+    }
+
+  }
   
 }
 
-module.exports = new contactController();
+module.exports = new hrController();

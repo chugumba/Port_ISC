@@ -6,29 +6,31 @@ import { observer } from "mobx-react-lite";
 //Компоненты
 import AuthHeader from "../../components/auth/authHeader.jsx";
 import MainFooter from "../../components/mainFooter";
-import HrVacancies from '../../components/auth/hr/hrVacancies'
+import Applications from '../../components/auth/hr/Applications.jsx';
 
 //Навигация
 const navItems = [
 
-  {label: "Заявки", link: '/hr/applications'},
+  {label: "Вакансии", link: '/hr'},
 ]
 
 
-function HrPage() {
+function HrApplications() {
   const { store } = useContext(Context);
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh - 2.7em' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh - 2.7em' }}>
+        
         <AuthHeader navItems = {navItems}/>
-        <HrVacancies/>
-      </div>
-      <MainFooter/>
+        <Applications/>  
+    
+    </div>
+     <MainFooter/>
     </>
-  );
+);
 
 };
 
-export default observer(HrPage);
+export default observer(HrApplications);
 

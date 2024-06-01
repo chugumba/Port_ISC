@@ -24,6 +24,9 @@ router.get('/users', roleMiddleware(['admin']),controller.getUsers) //вывод
     router.post('/vacanciesadd', roleMiddleware(['hr']), hrController.vacanciesAdd ) // вставка в таблицу с вакансиями
     router.delete('/vacanciesdel', roleMiddleware(['hr']), hrController.vacanciesDelete ) // удаление из таблицы с вакансиями
     router.put('/vacanciesupd', roleMiddleware(['hr']), hrController.vacanciesUpdate ) // обновление в таблице с вакансиями
+    //ЗАЯВКИ
+    router.get('/applicationget', roleMiddleware(['hr']), hrController.applicationsGet) // запрос оставленных заявок
+    router.put('/applicationupd', roleMiddleware(['hr']), hrController.applicationsUpdate) // Обновить статус
 
 //Finances
     //

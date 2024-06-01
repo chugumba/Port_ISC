@@ -27,7 +27,7 @@ export default function HrPage() {
       const response = await Contact.fetchVacancies();
       setVacancies(response.data);
     } catch (error) {
-      console.error('Error fetching vacancies:', error);
+      console.error('Не удалось запросить вакансии:', error);
     }
   }
 
@@ -92,7 +92,7 @@ export default function HrPage() {
   return (
     <>
       <Container size="lg" className="vacancies-page">
-        <Title order={1} align="center" mt="xs" mb="md">Работа с страницей вакансиий</Title>
+        <Title order={1} align="center" mt="xs" mb="md">Работа со страницей вакансиий</Title>
         <Text align="center" mb="xl">Вы можете добавить, изменить или удалить записи о вакансиях на сайте.</Text>
         
         <SimpleGrid cols={matches ? 2 : 1} spacing="lg">

@@ -1,6 +1,6 @@
 import React, {useRef, useContext} from "react";
 import {FaBars, FaTimes} from 'react-icons/fa'
-import { IoLogIn } from "react-icons/io5";
+import { IoLogOut } from "react-icons/io5";
 import logoImage from '../../img/logo.jpg'
 import '../../styles/header.css';
 import { Link, useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ const AuthHeader = ({ navItems }) => {
                         <FaBars/>
                     </button>
                     <button onClick={handleLoginClick} className="nav-button login-button">
-                        <IoLogIn />
+                        <IoLogOut />
                     </button>
                 </div>
             </div>
