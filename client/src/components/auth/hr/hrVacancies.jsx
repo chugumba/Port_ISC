@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from '@mantine/hooks';
-import { Title, Text, Container, Group, ActionIcon, Paper, Grid, Button, SimpleGrid, Divider, Flex, TextInput } from '@mantine/core';
+import { Title, Text, Container, Group, ActionIcon, Paper, Grid, Button, SimpleGrid, Divider, Flex, Textarea } from '@mantine/core';
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
 import { CiMail } from "react-icons/ci";
@@ -15,12 +15,13 @@ export default function HrPage() {
   const matches = useMediaQuery('(min-width: 768px)');
   const clipboard = useClipboard();
   const [vacancies, setVacancies] = useState([]);
+
   const [editingVacancyId, setEditingVacancyId] = useState(null);
-  
-  const [vacancyBuf, setVacancyBuf] = useState({
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
-  });
+  const [vacancyBuf, setVacancyBuf] = useState(null);
 
+  // Выводит все существующие записи
   async function fetchVacancies() {
     try {
       const response = await Contact.fetchVacancies();
@@ -30,39 +31,69 @@ export default function HrPage() {
     }
   }
 
+  // Запрашивает записи при открытии/обновлении
   useEffect(() => {
     fetchVacancies();
   }, []);
 
+// Управляет изменением записи
   const handleEdit = (vacancy) => {
+
     if(editingVacancyId === null)
       { 
         setEditingVacancyId(vacancy.id)
         setVacancyBuf({ ...vacancy})
+        setIsFormVisible(false);
+      }
+    else if (vacancy.id === editingVacancyId) {
+        setEditingVacancyId(null);
+        setVacancyBuf(null);
+        setIsFormVisible(false);
       }
     else {
         setEditingVacancyId(null);
         setVacancyBuf(null);
+        setIsFormVisible(false);
+        setEditingVacancyId(vacancy.id)
+        setVacancyBuf({ ...vacancy})
     }
   };
 
+  // Отправляет изменённую форму
   const sendEdit = async () => {
+    
+    if(vacancyBuf !== null){
     await HR.UpdateVacancy(vacancyBuf.id, vacancyBuf.title, vacancyBuf.description, vacancyBuf.requirements, vacancyBuf.benefits, vacancyBuf.contactEmail, vacancyBuf.contactPhone)
 
     setEditingVacancyId(null)
     setVacancyBuf(null)
-    fetchVacancies();
+    fetchVacancies();}
   }
 
-  const handleDelete = (id) => {
-    HR.DeleteVacancy(id);
+  // Удаляет запись
+  const handleDelete = async (id) => {
+    await HR.DeleteVacancy(id);
+    fetchVacancies();
   };
+
+  //Добавление вакансии
+  const addVacancy = async () => {
+    await HR.AddVacancy(vacancyBuf.title, vacancyBuf.description, vacancyBuf.requirements, vacancyBuf.benefits, vacancyBuf.contactEmail, vacancyBuf.contactPhone);
+    fetchVacancies();
+    setVacancyBuf(null);
+    setIsFormVisible(false)
+  }
+
+  const cancelAddVacancy = () => {
+    setVacancyBuf(null);
+    setIsFormVisible(false)
+  }
 
   return (
     <>
       <Container size="lg" className="vacancies-page">
-        <Title order={1} align="center" mt="xs" mb="md">Актуальные предложения</Title>
-        <Text align="center" mb="xl">Присоединяйтесь к нашему коллективу.</Text>
+        <Title order={1} align="center" mt="xs" mb="md">Работа с страницей вакансиий</Title>
+        <Text align="center" mb="xl">Вы можете добавить, изменить или удалить записи о вакансиях на сайте.</Text>
         
         <SimpleGrid cols={matches ? 2 : 1} spacing="lg">
           {vacancies.map((vacancy, index) => (
@@ -72,7 +103,7 @@ export default function HrPage() {
                   <Group position="apart" mb="xs">
                     <Title order={3}>                      
                       {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.title} onChange={(event) => setVacancyBuf({ ...vacancyBuf, title: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.title} onChange={(event) => setVacancyBuf({ ...vacancyBuf, title: event.target.value })}/>
                       ) : (
                         vacancy.title
                       )}
@@ -91,7 +122,7 @@ export default function HrPage() {
                   </Group>
                   <Divider my="sm" />
                   {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.description} onChange={(event) => setVacancyBuf({ ...vacancyBuf, description: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.description} onChange={(event) => setVacancyBuf({ ...vacancyBuf, description: event.target.value })}/>
                       ) : (
                         <Text size="sm" mb="sm">{vacancy.description}</Text>
                       )}
@@ -103,7 +134,7 @@ export default function HrPage() {
                     </ActionIcon>
                   </Group>
                   {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.requirements} onChange={(event) => setVacancyBuf({ ...vacancyBuf, requirements: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.requirements} onChange={(event) => setVacancyBuf({ ...vacancyBuf, requirements: event.target.value })}/>
                       ) : (
                         <Text size="sm" mb="sm">{vacancy.requirements}</Text>
                       )}
@@ -115,7 +146,7 @@ export default function HrPage() {
                     </ActionIcon>
                   </Group>
                   {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.benefits} onChange={(event) => setVacancyBuf({ ...vacancyBuf, benefits: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.benefits} onChange={(event) => setVacancyBuf({ ...vacancyBuf, benefits: event.target.value })}/>
                       ) : (
                         <Text size="sm" mb="sm">{vacancy.benefits}</Text>
                       )}
@@ -124,14 +155,13 @@ export default function HrPage() {
                 <Grid>
                   <Grid.Col span={matches ? 6 : 12}>
                   {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.contactEmail} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactEmail: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.contactEmail} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactEmail: event.target.value })}/>
                       ) : (
                         
                     <Button
                       variant="outline"
                       fullWidth
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
-                      //onClick={() => window.location.href = `mailto:${vacancy.contactEmail}`}
                     >
                       <CiMail style={{ marginRight: 8 }} /> {vacancy.contactEmail}
                     </Button>
@@ -139,13 +169,12 @@ export default function HrPage() {
                   </Grid.Col>
                   <Grid.Col span={matches ? 6 : 12}>
                   {editingVacancyId === vacancy.id ? (
-                        <TextInput defaultValue={vacancy.contactPhone} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactPhone: event.target.value })}/>
+                        <Textarea autosize defaultValue={vacancy.contactPhone} onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactPhone: event.target.value })}/>
                       ) : (
                     <Button
                       variant="outline"
                       fullWidth
                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', whiteSpace: 'nowrap' }}
-                      //onClick={() => window.location.href = `tel:${vacancy.contactPhone}`}
                     >
                       <FaPhone style={{ marginRight: 8 }} /> {vacancy.contactPhone}
                     </Button>
@@ -153,7 +182,7 @@ export default function HrPage() {
                   </Grid.Col>
                 </Grid>
                 {editingVacancyId === vacancy.id ? (
-                        <Button onClick={() => sendEdit(vacancy)}> Отправить </Button>
+                        <Button mt={20} onClick={() => sendEdit(vacancy)}> Отправить </Button>
                       ) : (null)
                 }
               </Flex>
@@ -161,6 +190,59 @@ export default function HrPage() {
             </Paper>
           ))}
         </SimpleGrid>
+          
+        {isFormVisible && (
+          <Paper mt={20} withBorder p="lg" radius="md">
+            <Title order={3} mb="md">Добавить вакансию</Title>
+            <Textarea
+              label="Название вакансии"
+              name="title"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, title: event.target.value })}
+              mb="md"
+            />
+            <Textarea
+              label="Описание вакансии"
+              name="description"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, description: event.target.value })}
+              mb="md"
+            />
+            <Textarea
+              label="Требования"
+              name="requirements"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, requirements: event.target.value })}
+              mb="md"
+            />
+            <Textarea
+              label="Преимущества"
+              name="benefits"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, benefits: event.target.value })}
+              mb="md"
+            />
+            <Textarea
+              label="Контактный Email"
+              name="contactEmail"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactEmail: event.target.value })}
+              mb="md"
+            />
+            <Textarea
+              label="Контактный телефон"
+              name="contactPhone"
+              onChange={(event) => setVacancyBuf({ ...vacancyBuf, contactPhone: event.target.value })}
+              mb="md"
+            />
+            <Button mr={20} onClick={addVacancy}>Добавить вакансию</Button>
+            <Button onClick={cancelAddVacancy}>Отмена</Button>
+          </Paper>
+        )}
+
+        {!isFormVisible && (
+          <Button fullWidth mt={20} onClick={() => {setIsFormVisible(true); setVacancyBuf(null); setEditingVacancyId(null)}}>
+            Добавить запись
+          </Button>
+        )}
+
+
+          
       </Container>
     </>
   );

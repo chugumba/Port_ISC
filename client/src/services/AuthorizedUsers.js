@@ -4,20 +4,17 @@ import $api from "../http";
 export class HR {
 
     static AddVacancy(title, description, requirements, benefits, contactEmail, contactPhone){
-        return $api.post('login/vacanciesadd',{withCredentials: true,
-            data: 
-                title,
-                description, 
-                requirements, 
-                benefits, 
-                contactEmail, 
-                contactPhone
-            })
+        return $api.post('login/vacanciesadd', {
+            title,
+            description,
+            requirements,
+            benefits,
+            contactEmail,
+            contactPhone
+        }, { withCredentials: true });
     }
 
     static UpdateVacancy(id, title, description, requirements, benefits, contactEmail, contactPhone){
-        
-        console.log(id, title, description, requirements, benefits, contactEmail, contactPhone)
         
         return $api.put('login/vacanciesupd', {
             id,
