@@ -11,10 +11,10 @@ class UserService {
             if (candidates.length > 0) {
                 throw ApiError.BadRequest("Пользователь с таким именем уже существует");
             }
-            console.log(username, password, role, phone, email)
+            
             const hashPassword =  await bcrypt.hash(password, 7);
             const [roles] = await db.query('SELECT * FROM roles WHERE name = ?', [role]);
-            //Сделать так, чтобы при отсутствии роли в списке она добавлялась
+            
             if (roles.length <= 0) {
                 throw ApiError.BadRequest("Роль пользователя не найдена");
             }

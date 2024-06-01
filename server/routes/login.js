@@ -2,6 +2,7 @@ const Router = require('express')
 const router = new Router()
 const controller = require('../controllers/authController') //контроллер для авторизации
 const hrController = require('../controllers/hrController') //контроллер для hr
+const adminController = require('../controllers/adminController')
 
 const {check} = require("express-validator")
 const authMiddleware = require('../middleware/authMiddleware')
@@ -11,10 +12,21 @@ const roleMiddleware = require('../middleware/roleMiddleware')
 //Admin
 router.post('/registration', roleMiddleware(['admin']), [
     check('username', "Имя пользователя не может быть пустым").notEmpty(),
-    check('password', "Пароль должен быть больше 4 и меньше 25 символов").isLength({min:4, max:25})
+    check('password', "Пароль должен быть больше 4 и меньше 25 символов").isLength({min:4, max:25}),
+    check('phone').isMobilePhone(),
+    check('email').isEmail(),
 ], controller.registration) //регистрирует пользователя
 
 router.get('/users', roleMiddleware(['admin']),controller.getUsers) //выводит всех пользователей
+
+router.delete('/usersdel', roleMiddleware(['admin']), adminController.userDelete) // удаление пользователя
+router.put('/usersupd', roleMiddleware(['admin']), 
+    check('username', "Имя пользователя не может быть пустым").notEmpty(),
+    check('password', "Пароль должен быть больше 4 и меньше 25 символов").isLength({min:4, max:25}),
+    check('phone').isMobilePhone(),
+    check('email').isEmail(), 
+adminController.userUpdate) // Обновить данные о пользователе
+
 
 //Security
     //

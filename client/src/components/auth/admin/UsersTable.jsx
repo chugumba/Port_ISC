@@ -46,6 +46,9 @@ export function UsersTable() {
   const rows = data.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>
+        {item.id}
+      </Table.Td>
+      <Table.Td>
         <Group gap="sm">
           <Text fz="sm" fw={500}>
             {item.username}
@@ -87,6 +90,7 @@ export function UsersTable() {
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
+            <Table.Th>ID</Table.Th>
             <Table.Th>Username</Table.Th>
             <Table.Th>Роль</Table.Th>
             <Table.Th>Email</Table.Th>

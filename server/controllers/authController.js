@@ -21,6 +21,7 @@ class authController {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
+                console.log(errors.array())
                 return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
             }
 
