@@ -52,17 +52,22 @@ export class HR {
 }
 
 // Admin
-
-
 export class Admin {
     static fetchUsers() {
         return $api.get('/login/users');
     }
     static deleteUser() {
-
+        return $api.delete('/login/usersdel', {id}, {withCredentials: true})
     }
 
-    static editUser() {
-        
+    static editUser(id, username, password, role, phone, email) {
+        return $api.delete('/login/usersupd', {
+            id, 
+            username, 
+            password, 
+            role, 
+            phone, 
+            email
+        }, {withCredentials: true})
     }
 }
