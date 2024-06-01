@@ -16,7 +16,7 @@ import MainFooter from "../../components/mainFooter";
 //Навигация
 const navItems = [
 
-  {label: "На главную", link: '/'}
+  //{label: "На главную", link: '/'}
 
 ]
 
@@ -24,12 +24,15 @@ function AdminPage() {
   const { store } = useContext(Context);
 
   return (
-    <div>
-      <AuthHeader navItems = {navItems}/>
-      <h1>Управление пользователями</h1>
-      <UsersTable/>
+    <>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh - 2.7em' }}>
+        <AuthHeader navItems = {navItems}/>
+        <h1 style={{textAlign: "center"}}>Управление пользователями</h1>
+        <UsersTable />
+      </div>
       <MainFooter/>
-    </div>
+    </>
   );
 }
 

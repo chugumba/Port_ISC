@@ -6,18 +6,19 @@ const ApiError = require('../exceptions/apiError');
 
 class UserService {
 
-    async registration(username, password, role){
+    async registration(username, password, role, phone, email){
             const [candidates] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
             if (candidates.length > 0) {
                 throw ApiError.BadRequest("Пользователь с таким именем уже существует");
             }
+            console.log(username, password, role, phone, email)
             const hashPassword =  await bcrypt.hash(password, 7);
             const [roles] = await db.query('SELECT * FROM roles WHERE name = ?', [role]);
             //Сделать так, чтобы при отсутствии роли в списке она добавлялась
             if (roles.length <= 0) {
                 throw ApiError.BadRequest("Роль пользователя не найдена");
             }
-            await db.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashPassword, role]);
+            await db.query('INSERT INTO users (username, password, role, phone, email) VALUES (?, ?, ?, ?, ?)', [username, hashPassword, role, phone, email]);
 
             const [user] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
 

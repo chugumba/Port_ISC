@@ -52,8 +52,17 @@ export class HR {
 }
 
 // Admin
+
+
 export class Admin {
-    fetchUsers(){
+    static fetchUsers() {
+        return $api.get('/login/users');
+    }
+    static deleteUser() {
+
+    }
+
+    static editUser() {
         
     }
 }

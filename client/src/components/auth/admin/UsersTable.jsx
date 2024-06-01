@@ -1,9 +1,9 @@
 import { Avatar, Badge, Table, Group, Text, ActionIcon, Anchor, rem, Container, Paper } from '@mantine/core';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //получает данные о пользователях
-import getUsers from "../../../services/UserService"
+import {Admin} from "../../../services/AuthorizedUsers"
 
 /* 
 
@@ -15,40 +15,9 @@ import getUsers from "../../../services/UserService"
 
 */
 
-const data = [
-  {
-    name: 'Robert Wolfkisser',
-    job: 'admin',
-    email: 'rob_wolf@gmail.com',
-    phone: '+44 (452) 886 09 12',
-  },
-  {
-    name: 'Jill Jailbreaker',
-    job: 'finances',
-    email: 'jj@breaker.com',
-    phone: '+44 (934) 777 12 76',
-  },
-  {
-    name: 'Henry Silkeater',
-    job: 'hr',
-    email: 'henry@silkeater.io',
-    phone: '+44 (901) 384 88 34',
-  },
-  {
-    name: 'Bill Horsefighter',
-    job: 'logistics',
-    email: 'bhorsefighter@gmail.com',
-    phone: '+44 (667) 341 45 22',
-  },
-  {
-    name: 'Jeremy Footviewer',
-    job: 'security',
-    email: 'jeremy@foot.dev',
-    phone: '+44 (881) 245 65 65',
-  },
-];
 
-const jobColors: Record<string, string> = {
+
+const jobColors = {
   admin: 'blue',
   finances: 'lime',
   hr: 'pink',
@@ -57,20 +26,39 @@ const jobColors: Record<string, string> = {
 };
 
 export function UsersTable() {
+
+  const [data, setData] = useState([])
+
+  async function getUsers() {
+    try {
+      const response = await Admin.fetchUsers();
+      console.log(response)
+      setData(response.data);
+    } catch (error) {
+      console.error('Не удалось запросить вакансии:', error);
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const rows = data.map((item) => (
-    <Table.Tr key={item.name}>
+    <Table.Tr key={item.id}>
       <Table.Td>
         <Group gap="sm">
           <Text fz="sm" fw={500}>
-            {item.name}
+            {item.username}
           </Text>
         </Group>
       </Table.Td>
 
       <Table.Td>
-        <Badge color={jobColors[item.job.toLowerCase()]} variant="light">
-          {item.job}
+      {item.role && (
+        <Badge color={jobColors[item.role.toLowerCase()]} variant="light">
+          {item.role}
         </Badge>
+        )}
       </Table.Td>
       <Table.Td>
         <Anchor component="button" size="sm">
@@ -95,7 +83,7 @@ export function UsersTable() {
 
   return (
     <Paper>
-    <Table.ScrollContainer minWidth={800}>
+    <Table.ScrollContainer minWidth={400}>
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
