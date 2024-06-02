@@ -2,6 +2,7 @@
 
 const db = require('../models/db');
 const bcrypt = require ('bcryptjs');
+const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/apiError');
 
 class adminController {
@@ -24,6 +25,14 @@ class adminController {
 
   async userUpdate(req, res, next) {
     try {
+
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+          console.log(errors.array())
+          return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+      }
+
+
       const { id, username, password, role, phone, email } = req.body;
       const hashPassword = await bcrypt.hash(password, 7);
   

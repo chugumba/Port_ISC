@@ -56,15 +56,25 @@ export class Admin {
     static fetchUsers() {
         return $api.get('/login/users');
     }
-    static deleteUser() {
-        return $api.delete('/login/usersdel', {id}, {withCredentials: true})
+    static deleteUser(id) {
+        return $api.delete('/login/usersdel', { withCredentials: true, data: {id} })
     }
 
     static editUser(id, username, password, role, phone, email) {
-        return $api.delete('/login/usersupd', {
+        return $api.put('/login/usersupd', {
             id, 
             username, 
             password, 
+            role, 
+            phone, 
+            email
+        }, {withCredentials: true})
+    }
+
+    static registerUser ( username, password, role, phone, email) {
+        return $api.post('login/registration',{
+            username, 
+            password,
             role, 
             phone, 
             email
