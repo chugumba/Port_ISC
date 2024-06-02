@@ -3,16 +3,30 @@ import { useContext } from 'react';
 import { Context } from "../../App";
 import { observer } from "mobx-react-lite";
 
+//Компоненты
+import AuthHeader from "../../components/auth/authHeader.jsx";
+import MainFooter from "../../components/mainFooter";
+import Arrival from '../../components/auth/logistics/arivalForm.jsx'
+//Навигация
+const navItems = [
+
+
+]
+
+
 function LogisticsPage() {
-  const { store } = useContext(Context);
 
   return (
-    <div>
-      <h1>Logistics page</h1>
-      <button onClick={() => store.logout()}>Выйти</button>
-    </div>
+    <>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh - 2.7em' }}>
+        <AuthHeader navItems = {navItems}/>
+        <Arrival/>
+      </div>
+      <MainFooter/>
+    </>
   );
-}
+
+};
 
 export default observer(LogisticsPage);
 

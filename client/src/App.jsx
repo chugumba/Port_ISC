@@ -15,9 +15,15 @@ import ForgotPassword from './pages/login/forgotPass';
 // Главные для авторизованных пользователей
 import AdminPage from './pages/authorized/adminMain';
 import FinancesPage from './pages/authorized/financesMain';
+
+//HR
 import HrPage from './pages/authorized/hrMain';
+
 import LogisticsPage from './pages/authorized/logisticsMain';
 import SecurityPage from './pages/authorized/securityMain';
+import HrApplications from './pages/authorized/hrApplications';
+
+//
 
 import Store from "./store/store";
 import { observer } from "mobx-react-lite";
@@ -68,11 +74,17 @@ const App = observer(() => {
             <Route path='/admin' element={store.user.role === 'admin' ? <AdminPage /> : <Navigate to="/login" />} />
             <Route path='/security' element={store.user.role === 'security' ? <SecurityPage /> : <Navigate to="/login" />} />
             <Route path='/finances' element={store.user.role === 'finances' ? <FinancesPage /> : <Navigate to="/login" />} />
+
+            {/*hr*/}
             <Route path='/hr' element={store.user.role === 'hr' ? <HrPage /> : <Navigate to="/login" />} />
+            <Route path='/hr/applications' element={store.user.role === 'hr' ? <HrApplications /> : <Navigate to="/login" />} />
+
+            {/*Логистика*/}
             <Route path='/logistics' element={store.user.role === 'logistics' ? <LogisticsPage /> : <Navigate to="/login" />} />
           </Routes>
         </Router>
       </div>
+      
     </Context.Provider>
   );
 });
