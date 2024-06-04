@@ -2,11 +2,12 @@ const Router = require('express')
 const router = new Router()
 const controller = require('../controllers/authController') //контроллер для авторизации
 const hrController = require('../controllers/hrController') //контроллер для hr
-const adminController = require('../controllers/adminController')
+const adminController = require('../controllers/adminController') // Контроллер для администратора
+const logisticsController = require('../controllers/logisticsController') // Контроллер для администратора
 
 const {check} = require("express-validator")
-const authMiddleware = require('../middleware/authMiddleware')
-const roleMiddleware = require('../middleware/roleMiddleware')
+const authMiddleware = require('../middleware/authMiddleware') // Проверка авторизации
+const roleMiddleware = require('../middleware/roleMiddleware') // Прповерка авторизации под определённой ролью
 
 
 //Admin
@@ -45,6 +46,7 @@ adminController.userUpdate) // Обновить данные о пользова
 
 //Logistics
     //
+    router.post('/shiparrival', roleMiddleware(['logistics']), logisticsController.arrivalAdd)
 
 //все пользователи
 router.post('/login', controller.login) // авторизация

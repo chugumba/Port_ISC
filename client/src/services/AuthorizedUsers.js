@@ -81,3 +81,24 @@ export class Admin {
         }, {withCredentials: true})
     }
 }
+
+// Logistics
+export class Logistics {
+
+    // Регистрация прибытия
+    static registerArrival ( name, flag, port_of_dep, crew, pier, date) {
+        return $api.post('login/shiparrival',{
+            name, 
+            flag,
+            port_of_dep,
+            crew,
+            pier, 
+            date
+        }, {withCredentials: true})
+    }
+
+    // Регистрация контейнеров
+    static registerContainers (containers, arrivalId) {
+        console.log(containers)
+    }
+}
