@@ -24,12 +24,30 @@ class logisticsController {
         }
     }
     
-    containersAdd (req,res,next) {
-        
+    async containersAdd (req, res, next) {
         try {
-            
-            const {arr_id, plat_id, name, desc} = req.body;
+            const { containers, arrivalId } = req.body;
+    
+            // Create an array of promises for each container insertion
+            const insertPromises = containers.map(container => {
+                return new Promise((resolve, reject) => {
+                    db.query(
+                        'INSERT INTO containers (`arr_id`, `plat_id`, `name`, `desc`) VALUES (?, ?, ?, ?)',
+                        [arrivalId, container.platform, container.containerNumber, container.description],
+                        (error, results) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(results);
+                            }
+                        }
+                    );
+                });
+            });
 
+            await Promise.all(insertPromises);
+    
+            res.status(200).send('Containers added successfully');
         } catch (e) {
             next(e);
         }

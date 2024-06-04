@@ -47,6 +47,8 @@ adminController.userUpdate) // Обновить данные о пользова
 //Logistics
     //
     router.post('/shiparrival', roleMiddleware(['logistics']), logisticsController.arrivalAdd)
+    router.post('/containersadd', roleMiddleware(['logistics']), logisticsController.containersAdd)
+    
 
 //все пользователи
 router.post('/login', controller.login) // авторизация

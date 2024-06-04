@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TextInput, Button, Container, Paper, Title, Space, NumberInput, Grid, Table } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { TextInput, Button, Container, Paper, Title, Space, NumberInput, Grid, Table, ScrollArea } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 
@@ -11,20 +12,36 @@ const ArrivalForm = () => {
   const [arrivalId, setArrivalId] = useState(null);
   const [containers, setContainers] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = {
-      name: e.target.name.value,
-      flag: e.target.flag.value,
-      port_of_dep: e.target.port_of_dep.value,
-      crew: e.target.crew.value,
-      pier: e.target.pier.value,
-      date: e.target.date.value,
-    };
-    console.log(formData);
-    setIsSubmitted(true);
-    const response = await Logistics.registerArrival(formData.name, formData.flag, formData.port_of_dep, formData.crew, formData.pier, formData.date);
-    setArrivalId(response.data.id);
+  const form = useForm({
+    initialValues: {
+      name: '',
+      flag: '',
+      port_of_dep: '',
+      crew: '',
+      pier: '',
+      date: null,
+    },
+
+    validate: {
+      name: (value) => (value ? null : 'Наименование судна обязательно'),
+      flag: (value) => (value ? null : 'Флаг судна обязателен'),
+      port_of_dep: (value) => (value ? null : 'Порт отправления обязателен'),
+      crew: (value) => (value > 0 ? null : 'Число членов экипажа должно быть больше 0'),
+      pier: (value) => (value >= 1 && value <= 4 ? null : 'Причал должен быть от 1 до 4'),
+      date: (value) => (value ? null : 'Дата прибытия обязательна'),
+    },
+  });
+
+  const handleSubmit = async (values) => {
+    try {
+
+      const response = await Logistics.registerArrival(values.name, values.flag, values.port_of_dep, values.crew, values.pier, values.date);
+      setIsSubmitted(true);
+      setArrivalId(response.data.id);
+
+    } catch (error) {
+      console.log("Ошибка фиксации прибытия судна")
+    }
   };
 
   const addContainer = (container) => {
@@ -32,9 +49,18 @@ const ArrivalForm = () => {
   };
 
   const handleContainerSubmit = async () => {
+    try {
+     
+      form.reset();
+      setIsSubmitted(false);
+      setArrivalId(null)
+      setContainers([]);
+      await Logistics.registerContainers(containers, arrivalId);
+      
+    } catch (error) {
+      console.log("Ошибка фиксации прибытия контейнеров")
+    }
     
-    await Logistics.registerContainers(containers, arrivalId)
-
   };
 
   return (
@@ -43,12 +69,12 @@ const ArrivalForm = () => {
         <Grid.Col span={12}>
           <Paper shadow="md" p="lg">
             <Title order={2} align="center">Фиксация прибытия судна</Title>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
               <Space h="md" />
               <TextInput
                 label="Наименование судна"
                 placeholder="Судно"
-                name="name"
+                {...form.getInputProps('name')}
                 required
                 disabled={isSubmitted}
               />
@@ -56,7 +82,7 @@ const ArrivalForm = () => {
               <TextInput
                 label="Флаг судна"
                 placeholder="Флаг"
-                name="flag"
+                {...form.getInputProps('flag')}
                 required
                 disabled={isSubmitted}
               />
@@ -64,7 +90,7 @@ const ArrivalForm = () => {
               <TextInput
                 label="Порт отправления"
                 placeholder="Порт"
-                name="port_of_dep"
+                {...form.getInputProps('port_of_dep')}
                 required
                 disabled={isSubmitted}
               />
@@ -72,8 +98,8 @@ const ArrivalForm = () => {
               <TextInput
                 label="Экипаж (чел.)"
                 placeholder="Число членов экипажа"
-                name="crew"
                 type="number"
+                {...form.getInputProps('crew')}
                 required
                 disabled={isSubmitted}
               />
@@ -81,7 +107,7 @@ const ArrivalForm = () => {
               <NumberInput
                 label="Причал прибытия"
                 placeholder="Причал"
-                name="pier"
+                {...form.getInputProps('pier')}
                 min={1}
                 max={4}
                 required
@@ -92,7 +118,7 @@ const ArrivalForm = () => {
                 valueFormat="YYYY-MM-DD"
                 label="Дата прибытия"
                 placeholder="Дата"
-                name="date"
+                {...form.getInputProps('date')}
                 required
                 disabled={isSubmitted}
               />

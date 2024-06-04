@@ -99,6 +99,9 @@ export class Logistics {
 
     // Регистрация контейнеров
     static registerContainers (containers, arrivalId) {
-        console.log(containers)
+        return $api.post('login/containersadd', {
+           containers,
+           arrivalId
+        }, {withCredentials: true})
     }
 }
