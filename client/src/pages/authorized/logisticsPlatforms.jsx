@@ -1,32 +1,27 @@
 import React from 'react';
-import { observer } from "mobx-react-lite";
 
 //Компоненты
 import AuthHeader from "../../components/auth/authHeader.jsx";
-import MainFooter from "../../components/mainFooter";
-import Arrival from '../../components/auth/logistics/arivalForm.jsx'
+import MainFooter from "../../components/mainFooter.jsx";
+import Platform from '../../components/auth/logistics/platformsForm.jsx';
 //Навигация
 const navItems = [
 
-  {label: "Платформы", link: '/logistics/platforms'},
+  {label: "Прибытие", link: '/logistics'},
   {label: "Убытие", link: '/logistics/departure'},
 
 ]
 
-
-function LogisticsPage() {
+export default function DeparturePage() {
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh - 2.7em' }}>
         <AuthHeader navItems = {navItems}/>
-        <Arrival/>
+        <Platform/>
       </div>
       <MainFooter/>
     </>
   );
 
 };
-
-export default observer(LogisticsPage);
-

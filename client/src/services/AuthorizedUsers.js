@@ -85,6 +85,8 @@ export class Admin {
 // Logistics
 export class Logistics {
 
+    // Страница прибытия 
+    
     // Регистрация прибытия
     static registerArrival ( name, flag, port_of_dep, crew, pier, date) {
         return $api.post('login/shiparrival',{
@@ -105,9 +107,22 @@ export class Logistics {
         }, {withCredentials: true})
     }
 
+    // Получение информации о заполненности платформ для контейнеров
     static async platformsGet () {
-
         return ( (await $api.get('login/platformsget', {withCredentials: true})).data.info)
-
     }
+
+    // Страница платформ
+    
+    static async containersGet() {
+        return ( (await $api.get('login/containersget', {withCredentials: true})).data.info)
+    }
+
+    static async containersMove(containerId, newPlatId) {
+        return await $api.put('login/containersmove', {containerId, newPlatId}, {withCredentials: true})
+    }
+    
+    
+
+
 }

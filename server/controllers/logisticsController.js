@@ -96,6 +96,60 @@ class logisticsController {
         }
     }
       
+    async containersGet (req, res, next) {
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            const result = await connection.query(
+                'SELECT * FROM containers'
+            );
+            
+            await connection.commit();
+
+            res.json ({info: result[0]})
+
+        } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
+            next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+    }
+
+    async containersMove(req, res, next) {
+        const { containerId, newPlatId } = req.body;
+        
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            const result = await connection.query(
+                'UPDATE containers SET plat_id = ? WHERE id = ?', [newPlatId, containerId]
+            );
+            
+            await connection.commit();
+
+            res.json ({info: result[0]})
+
+        } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
+            next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+    }
+
 
 }
 

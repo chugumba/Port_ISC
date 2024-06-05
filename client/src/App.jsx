@@ -19,7 +19,11 @@ import FinancesPage from './pages/authorized/financesMain';
 //HR
 import HrPage from './pages/authorized/hrMain';
 
+//Logistics
 import LogisticsPage from './pages/authorized/logisticsMain';
+import PlatformsPage from './pages/authorized/logisticsPlatforms';
+import DeparturePage from './pages/authorized/logisticsDeparture'
+
 import SecurityPage from './pages/authorized/securityMain';
 import HrApplications from './pages/authorized/hrApplications';
 
@@ -81,6 +85,10 @@ const App = observer(() => {
 
             {/*Логистика*/}
             <Route path='/logistics' element={store.user.role === 'logistics' ? <LogisticsPage /> : <Navigate to="/login" />} />
+            <Route path='/logistics/departure' element={store.user.role === 'logistics' ? <DeparturePage /> : <Navigate to="/login" />} />
+            <Route path='/logistics/platforms' element={store.user.role === 'logistics' ? <PlatformsPage /> : <Navigate to="/login" />} />
+            {/*<Route path='/logistics/documents' element={store.user.role === 'logistics' ? <DocumentsPage /> : <Navigate to="/login" />} />*/}
+            
           </Routes>
         </Router>
       </div>
