@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, Button, Container, Paper, Title, Space, NumberInput, Grid, Table, ScrollArea } from '@mantine/core';
+import { TextInput, Button, Container, Paper, Title, Space, NumberInput, Grid, Table } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 
@@ -11,7 +11,7 @@ const ArrivalForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrivalId, setArrivalId] = useState(null);
   const [containers, setContainers] = useState([]);
-  
+  const [platformCapacity, setPlatformCapacity] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -35,13 +35,12 @@ const ArrivalForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-
       const response = await Logistics.registerArrival(values.name, values.flag, values.port_of_dep, values.crew, values.pier, values.date);
       setIsSubmitted(true);
       setArrivalId(response.data.id);
-
+      await getPlatformCapacity(); // Вызов функции для получения платформ после регистрации прибытия
     } catch (error) {
-      console.log("Ошибка фиксации прибытия судна")
+      console.log("Ошибка фиксации прибытия судна");
     }
   };
 
@@ -51,20 +50,16 @@ const ArrivalForm = () => {
 
   const handleContainerSubmit = async () => {
     try {
-     
+      await Logistics.registerContainers(containers, arrivalId);
       form.reset();
       setIsSubmitted(false);
-      setArrivalId(null)
+      setArrivalId(null);
       setContainers([]);
-      await Logistics.registerContainers(containers, arrivalId);
-      
+      getPlatformCapacity();
     } catch (error) {
-      console.log("Ошибка фиксации прибытия контейнеров")
+      console.log("Ошибка фиксации прибытия контейнеров");
     }
-    
   };
-
-  const [platformCapacity, setPlatformCapacity] = useState([]);
 
   const getPlatformCapacity = async () => {
     let result = [];
@@ -72,19 +67,24 @@ const ArrivalForm = () => {
     try {
       const response = await Logistics.platformsGet();
       response.forEach((inf, index) => {
-        result[index] = (<div key={index}> Платформа: {inf.id}: {inf.fill}/{inf.capacity} </div>);
+        result[index] = (
+          <div style={{textAlign: "center"}} key={index}>
+            Платформа: {inf.id}: {inf.fill}/{inf.capacity}
+          </div>
+        );
       });
       setPlatformCapacity(result);
     } catch (error) {
-      console.log("Ошибка запроса места наплатформах", error);
+      console.log("Ошибка запроса места на платформах", error);
     }
   };
-  
+
+  useEffect(() => {
+    getPlatformCapacity(); // Вызов функции для получения платформ при монтировании компонента
+  }, []);
 
   return (
-
     <Container size="xl" my="xl">
-      
       <Grid>
         <Grid.Col span={12}>
           <Paper shadow="md" p="lg">
@@ -144,7 +144,7 @@ const ArrivalForm = () => {
               />
               <Space h="lg" />
               {!arrivalId && (
-                <Button type="submit" fullWidth onClick={getPlatformCapacity}>
+                <Button type="submit" fullWidth>
                   Зафиксировать
                 </Button>
               )}
@@ -162,6 +162,14 @@ const ArrivalForm = () => {
               </>
             )}
           </Paper>
+        </Grid.Col>
+        <Grid.Col span={12}>
+          {platformCapacity.length > 0 && (
+            <Paper shadow="md" p="lg">
+              <Title order={3} align="center">Заполненность платформ</Title>
+              {platformCapacity}
+            </Paper>
+          )}
         </Grid.Col>
         <Grid.Col span={12}>
           {containers.length > 0 && (
