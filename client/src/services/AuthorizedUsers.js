@@ -104,4 +104,10 @@ export class Logistics {
            arrivalId
         }, {withCredentials: true})
     }
+
+    static async platformsGet () {
+
+        return ( (await $api.get('login/platformsget', {withCredentials: true})).data.info)
+
+    }
 }

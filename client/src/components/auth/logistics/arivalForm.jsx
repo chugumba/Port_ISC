@@ -11,6 +11,7 @@ const ArrivalForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [arrivalId, setArrivalId] = useState(null);
   const [containers, setContainers] = useState([]);
+  
 
   const form = useForm({
     initialValues: {
@@ -63,8 +64,27 @@ const ArrivalForm = () => {
     
   };
 
+  const [platformCapacity, setPlatformCapacity] = useState([]);
+
+  const getPlatformCapacity = async () => {
+    let result = [];
+
+    try {
+      const response = await Logistics.platformsGet();
+      response.forEach((inf, index) => {
+        result[index] = (<div key={index}> Платформа: {inf.id}: {inf.fill}/{inf.capacity} </div>);
+      });
+      setPlatformCapacity(result);
+    } catch (error) {
+      console.log("Ошибка запроса места наплатформах", error);
+    }
+  };
+  
+
   return (
+
     <Container size="xl" my="xl">
+      
       <Grid>
         <Grid.Col span={12}>
           <Paper shadow="md" p="lg">
@@ -124,7 +144,7 @@ const ArrivalForm = () => {
               />
               <Space h="lg" />
               {!arrivalId && (
-                <Button type="submit" fullWidth>
+                <Button type="submit" fullWidth onClick={getPlatformCapacity}>
                   Зафиксировать
                 </Button>
               )}

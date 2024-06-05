@@ -3,56 +3,98 @@ const bcrypt = require ('bcryptjs');
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/apiError');
 
+let connection;
+
 class logisticsController {
     
-    async arrivalAdd(req, res, next) {
-        try {
-            const { name, flag, port_of_dep, crew, pier, date } = req.body;
-            const formattedDate = new Date(date).toISOString().split('T')[0];
     
-            const [result] = await db.query(
+    async arrivalAdd(req, res, next) {
+        const { name, flag, port_of_dep, crew, pier, date } = req.body;
+        const formattedDate = new Date(date).toISOString().split('T')[0];
+
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            const [result] = await connection.query(
                 `INSERT INTO ship_arrivals (name, flag, port_of_dep, crew, pier, date) VALUES (?, ?, ?, ?, ?, ?)`,
                 [name, flag, port_of_dep, crew, pier, formattedDate]
             );
-    
-            // Get the inserted ID
+
             const insertId = result.insertId;
-    
+
+            await connection.commit();
+
             res.json({ message: 'Ship arrival added successfully', id: insertId });
         } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
             next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
         }
     }
     
-    async containersAdd (req, res, next) {
-        try {
-            const { containers, arrivalId } = req.body;
-    
-            // Create an array of promises for each container insertion
-            const insertPromises = containers.map(container => {
-                return new Promise((resolve, reject) => {
-                    db.query(
-                        'INSERT INTO containers (`arr_id`, `plat_id`, `name`, `desc`) VALUES (?, ?, ?, ?)',
-                        [arrivalId, container.platform, container.containerNumber, container.description],
-                        (error, results) => {
-                            if (error) {
-                                reject(error);
-                            } else {
-                                resolve(results);
-                            }
-                        }
-                    );
-                });
-            });
+    async containersAdd(req, res, next) {
+        const { containers, arrivalId } = req.body;
 
-            await Promise.all(insertPromises);
-    
-            res.status(200).send('Containers added successfully');
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            for (const container of containers) {
+                await connection.query(
+                    'INSERT INTO containers (`arr_id`, `plat_id`, `name`, `desc`) VALUES (?, ?, ?, ?)',
+                    [arrivalId, container.platform, container.containerNumber, container.description]
+                );
+            }
+
+            await connection.commit();
+
+            res.json({ message: 'Containers added successfully' });
         } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
             next(e);
+        } finally {
+
+            if (connection) {
+                connection.release();
+            }
+        }
+    } 
+
+    async platformsGet (req, res, next) {
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            const result = await connection.query(
+                'SELECT * FROM platforms'
+            );
+            
+            await connection.commit();
+
+            res.json ({info: result[0]})
+
+        } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
+            next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
         }
     }
-      
       
 
 }

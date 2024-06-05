@@ -46,8 +46,9 @@ adminController.userUpdate) // Обновить данные о пользова
 
 //Logistics
     //
-    router.post('/shiparrival', roleMiddleware(['logistics']), logisticsController.arrivalAdd)
-    router.post('/containersadd', roleMiddleware(['logistics']), logisticsController.containersAdd)
+    router.post('/shiparrival', roleMiddleware(['logistics']), logisticsController.arrivalAdd) // Фиксация прибытия судна
+    router.post('/containersadd', roleMiddleware(['logistics']), logisticsController.containersAdd) // Фиксация прибытия контейнеров
+    router.get('/platformsget', roleMiddleware(['logistics']), logisticsController.platformsGet) // Получение информации о платформах для контейнеров
     
 
 //все пользователи
