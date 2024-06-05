@@ -27,7 +27,9 @@ export default function DeparturePage() {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+          <div>
           <Departure />
+          </div>
         </div>
         <div style={{ width: '100%' }}>
           <MainFooter />

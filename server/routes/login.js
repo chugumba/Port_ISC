@@ -55,6 +55,9 @@ adminController.userUpdate) // Обновить данные о пользова
     
     // Платформы
     router.get('/platformsget', roleMiddleware(['logistics']), logisticsController.platformsGet) // Получение информации о платформах для контейнеров
+
+    // Уход
+    router.post('/departure', roleMiddleware(['logistics']), logisticsController.departure) // Передача контейнеров
     
 
 //все пользователи

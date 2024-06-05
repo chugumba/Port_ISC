@@ -122,7 +122,9 @@ export class Logistics {
         return await $api.put('login/containersmove', {containerId, newPlatId}, {withCredentials: true})
     }
     
-    
+    static async addDeparture(rowsId, given) {
+        return await $api.post('login/departure', {rowsId, given}, {withCredentials: true})
+    }
 
 
 }

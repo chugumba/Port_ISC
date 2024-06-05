@@ -2,6 +2,7 @@ const db = require('../models/db');
 const bcrypt = require ('bcryptjs');
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/apiError');
+const { v1: uuidv1 } = require('uuid');
 
 let connection;
 
@@ -149,6 +150,56 @@ class logisticsController {
             }
         }
     }
+
+    async departure(req, res, next) {
+        const { rowsId, given } = req.body;
+        const uuid_group = uuidv1();
+    
+        try {
+            connection = await db.getConnection();
+    
+            await connection.beginTransaction();
+    
+            for (let i = 0; i < rowsId.length; i++) {
+                const id = rowsId[i];
+                
+                const [rows] = await connection.query(
+                    'SELECT * FROM containers WHERE id = ?', [id]
+                );
+    
+                if (rows.length === 0) {
+                    throw new Error(`Record with id ${id} not found`);
+                }
+    
+                const record = rows[0];
+    
+                await connection.query(
+                    'DELETE FROM containers WHERE id = ?', [id]
+                );
+    
+                await connection.query(
+                    `INSERT INTO departed_containers (id, arr_id, plat_id, name, \`desc\`, given_to, group_uuid) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                    [record.id, record.arr_id, record.plat_id, record.name, record.desc, given, uuid_group]
+                );
+            }
+    
+            await connection.commit();
+    
+            res.json({ info: 'Записи успешно перемещены' });
+    
+        } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
+            next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+    }
+    
 
 
 }
