@@ -60,25 +60,7 @@ export default function DeparturesTable() {
 
   return (
     <>
-      <style>{`
-      .subs {
-        display:none
-      }
-        @media print {
-          .print-button,
-          .modal-print-button,
-          .mantine-Modal-modal {
-            display: none;
-          }
-          .mantine-Modal-content {
-            border: none !important;
-            box-shadow: none !important;
-          }
-          .subs {
-            display: block;
-          }
-        }
-      `}</style>
+
 
       <div ref={tableRef}>
       <Title order={3} align={"center"} mt={10} className = "subs" style={{ position: 'relative', textAlign: 'left', marginTop: '100px' }}> Убытия </Title>
