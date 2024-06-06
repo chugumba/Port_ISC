@@ -9,7 +9,7 @@ const navItems = [
 
   {label: "Прибытие", link: '/logistics'},
   {label: "Убытие", link: '/logistics/departure'},
-
+  {label: "Создание документов", link: '/logistics/documents'},
 ]
 
 export default function DeparturePage() {

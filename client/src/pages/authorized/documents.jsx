@@ -1,17 +1,17 @@
 import React from 'react';
+import { Title } from '@mantine/core';
 // Компоненты
 import AuthHeader from "../../components/auth/authHeader.jsx";
 import MainFooter from "../../components/mainFooter.jsx";
-import Departure from '../../components/auth/logistics/departureForm.tsx';
-
+import ArrivalsTable from '../../components/auth/logistics/arrivalsTable.jsx';
 // Навигация
 const navItems = [
   { label: "Прибытие", link: '/logistics' },
+  {label: "Убытие", link: '/logistics/departure'},
   { label: "Платформы", link: '/logistics/platforms' },
-  {label: "Создание документов", link: '/logistics/documents'},
 ];
 
-export default function DeparturePage() {
+export default function Documents() {
   return (
     <>
       <div style={{
@@ -29,7 +29,9 @@ export default function DeparturePage() {
           alignItems: 'center',
         }}>
           <div>
-          <Departure />
+          <Title order={1} align="center" mt="xs" mb="md">Нажмите на запись чтобы создать отчёт</Title>
+          <Title order={3} align="center" mt="xs" mb="md">Прибытия</Title>
+          <ArrivalsTable/>
           </div>
         </div>
         <div style={{ width: '100%' }}>

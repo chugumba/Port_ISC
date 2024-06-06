@@ -153,6 +153,7 @@ class logisticsController {
 
     async departure(req, res, next) {
         const { rowsId, given } = req.body;
+        // Совпадений не будет, потому что uuid берёт временную метку и mac адрес
         const uuid_group = uuidv1();
     
         try {
@@ -200,6 +201,64 @@ class logisticsController {
         }
     }
     
+    async arrivalsGet (req, res, next) {
+        try {
+            connection = await db.getConnection();
+
+            await connection.beginTransaction();
+
+            const result = await connection.query(
+                'SELECT * FROM ship_arrivals;'
+            );
+            
+            await connection.commit();
+            res.json ({info: result[0]})
+
+        } catch (e) {
+            if (connection) {
+                await connection.rollback();
+            }
+            next(e);
+        } finally {
+            if (connection) {
+                connection.release();
+            }
+        }
+    }
+
+async arrivalContainersGet(req, res, next) {
+    const { id } = req.query;
+
+    let connection;
+    
+    try {
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+        
+        const [result] = await connection.query(
+        `SELECT id, plat_id, name, 'На складе' AS source 
+        FROM containers 
+        WHERE arr_id = ?
+        UNION ALL
+        SELECT id, plat_id, name, 'Отправлен' AS source 
+        FROM departed_containers 
+        WHERE arr_id = ?;`, [id, id]);
+        
+        await connection.commit();
+        res.json({ info: result });
+
+    } catch (e) {
+        if (connection) {
+            await connection.rollback();
+        }
+        next(e);
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
 
 
 }

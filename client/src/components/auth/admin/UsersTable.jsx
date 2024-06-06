@@ -10,10 +10,8 @@ import {Admin} from "../../../services/AuthorizedUsers"
 
 const jobColors = {
   admin: 'blue',
-  finances: 'lime',
   hr: 'pink',
   logistics: 'yellow',
-  security: 'cyan',
 };
 
 export function UsersTable() {
@@ -113,7 +111,7 @@ export function UsersTable() {
       <Table.Td>
         
       {editingUserId === item.id ? ( 
-      <Select data={["admin","hr","security","finances"]} 
+      <Select data={["admin","hr","logistics"]} 
       defaultValue={item.role}
       variant="unstyled"
       allowDeselect={false}
@@ -220,7 +218,7 @@ export function UsersTable() {
       <Paper mb={20} mt={20} p ={20}>
        
         Username: <TextInput fz="sm" onChange={(event) => setUserBuf({ ...userBuf, username: event.target.value })} />
-        Роль: <Select data={["admin","hr","security","finances"]} 
+        Роль: <Select data={["admin","hr","logistics",]} 
               
               
               allowDeselect={false}

@@ -126,5 +126,18 @@ export class Logistics {
         return await $api.post('login/departure', {rowsId, given}, {withCredentials: true})
     }
 
+    // Отчёты
+
+    static async arrivalsGet() {
+        return ( (await $api.get('login/arrivalsget', {withCredentials: true})).data.info)
+    }
+
+    static async arrivalContainersGet(id) {
+        return ( (await $api.get('login/arrivalcontainersget', {
+            params: { id },
+            withCredentials: true
+        })).data.info)
+    }
+
 
 }

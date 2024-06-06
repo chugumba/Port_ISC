@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-import { useContext } from 'react';
-import { Context } from "../../App";
-import { observer } from "mobx-react-lite";
+import React from 'react';
 
 //Компоненты
 import AuthHeader from "../../components/auth/authHeader.jsx";
@@ -16,7 +13,6 @@ const navItems = [
 
 
 function HrPage() {
-  const { store } = useContext(Context);
 
   return (
     <>
@@ -45,5 +41,5 @@ function HrPage() {
 
 };
 
-export default observer(HrPage);
+export default HrPage;
 

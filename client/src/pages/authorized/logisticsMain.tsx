@@ -10,6 +10,7 @@ const navItems = [
 
   {label: "Платформы", link: '/logistics/platforms'},
   {label: "Убытие", link: '/logistics/departure'},
+  {label: "Создание документов", link: '/logistics/documents'},
 
 ]
 
