@@ -260,6 +260,66 @@ async arrivalContainersGet(req, res, next) {
 }
 
 
+async departureGroupsGet(req, res, next) {
+
+    let connection;
+    
+    try {
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+        
+        const [result] = await connection.query(
+            `SELECT group_uuid, COUNT(*) as record_count,
+            (SELECT MIN(date_of_departure) FROM departed_containers AS sub
+             WHERE sub.group_uuid = main.group_uuid) AS first_date_of_departure
+            FROM departed_containers AS main
+            GROUP BY group_uuid;`
+        );
+        await connection.commit();
+        res.json({ info: result });
+
+    } catch (e) {
+        if (connection) {
+            await connection.rollback();
+        }
+        next(e);
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
+async departedContainersGet(req, res, next) {
+
+    const { id } = req.query;
+
+    let connection;
+    
+    try {
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+        
+        const [result] = await connection.query(
+            `SELECT id, arr_id, plat_id, name, \`desc\`,   given_to, date_of_departure
+            FROM departed_containers
+            WHERE group_uuid = ?`, [id]
+        );
+        await connection.commit();
+        res.json({ info: result });
+
+    } catch (e) {
+        if (connection) {
+            await connection.rollback();
+        }
+        next(e);
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
+
 
 }
 

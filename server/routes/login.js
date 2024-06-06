@@ -62,7 +62,10 @@ adminController.userUpdate) // Обновить данные о пользова
     // Отчёты
     router.get('/arrivalsget', roleMiddleware(['logistics']), logisticsController.arrivalsGet) // Получение информации о прибытиях
     router.get('/arrivalcontainersget', roleMiddleware(['logistics']), logisticsController.arrivalContainersGet) // Получение информации о контейнерах прибытиях
-
+    router.get('/departedidget', roleMiddleware(['logistics']), logisticsController.departureGroupsGet) // Получение информации о существующих убытиях
+    router.get('/departedgroupget', roleMiddleware(['logistics']), logisticsController.departedContainersGet) // Получение информации о убывших контейнерах 
+    
+    
 //все пользователи
 router.post('/login', controller.login) // авторизация
 router.post('/logout', controller.logout) // выход

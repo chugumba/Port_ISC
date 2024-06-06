@@ -4,6 +4,8 @@ import { Title } from '@mantine/core';
 import AuthHeader from "../../components/auth/authHeader.jsx";
 import MainFooter from "../../components/mainFooter.jsx";
 import ArrivalsTable from '../../components/auth/logistics/arrivalsTable.jsx';
+import DepartureTable from '../../components/auth/logistics/departuresTable.jsx';
+
 // Навигация
 const navItems = [
   { label: "Прибытие", link: '/logistics' },
@@ -32,6 +34,8 @@ export default function Documents() {
           <Title order={1} align="center" mt="xs" mb="md">Нажмите на запись чтобы создать отчёт</Title>
           <Title order={3} align="center" mt="xs" mb="md">Прибытия</Title>
           <ArrivalsTable/>
+          <Title order={3} align="center" mt="xs" mb="md"> Убытия </Title>
+          <DepartureTable/>
           </div>
         </div>
         <div style={{ width: '100%' }}>

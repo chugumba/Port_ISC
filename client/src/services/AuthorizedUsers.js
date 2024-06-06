@@ -128,12 +128,25 @@ export class Logistics {
 
     // Отчёты
 
+    //Прибытия
     static async arrivalsGet() {
         return ( (await $api.get('login/arrivalsget', {withCredentials: true})).data.info)
     }
 
     static async arrivalContainersGet(id) {
         return ( (await $api.get('login/arrivalcontainersget', {
+            params: { id },
+            withCredentials: true
+        })).data.info)
+    }
+
+    //Убытия
+    static async departureGroupsGet() {
+        return ( (await $api.get('login/departedidget', {withCredentials: true})).data.info)
+    }
+
+    static async departedContainersGet(id) {
+        return ( (await $api.get('login/departedgroupget', {
             params: { id },
             withCredentials: true
         })).data.info)
