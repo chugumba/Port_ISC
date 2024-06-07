@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 #Confedential info
-db.config.js
+#db.config.js

@@ -5,6 +5,8 @@ const bcrypt = require ('bcryptjs');
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
 const {secret} = require("../configs/secret")
+const userService = require('../service/userService');
+const ApiError = require('../exceptions/apiError');
 
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -15,55 +17,64 @@ const generateAccessToken = (id, roles) => {
 }
 
 class authController {
-    async registration(req, res) {
+    async registration(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(400).json({message: "Ошибка при регистрации", errors})
+                console.log(errors.array())
+                return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
             }
-            const { username, password, role } = req.body;
-            const [candidates] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
-            if (candidates.length > 0) {
-                return res.status(400).json({ message: "Пользователь с таким именем уже существует" });
-            }
-            const hashPassword = bcrypt.hashSync(password, 7);
-            const [roles] = await db.query('SELECT * FROM roles WHERE name = ?', [role]);
-            //Сделать так, чтобы при отсутствии роли в списке она добавлялась
-            if (roles.length <= 0) {
-                return res.status(400).json({ message: "Роль пользователя не найдена" });
-            }
-            await db.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashPassword, role]);
+
+            const { username, password, role, phone, email } = req.body;
+            const userData = await userService.registration(username, password, role, phone, email);
             
-            return res.json({ message: "Пользователь успешно зарегистрирован" });
+            //res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
         } catch (e) {
-            console.error(e);
-            res.status(400).json({ message: 'Registration error' });
+            return next(e);
+            //res.status(400).json({ message: 'Registration error' });
         }
     }
-    async login(req, res) {
+
+    async login(req, res, next) {
         try {
             const {username, password} = req.body
-            const [users] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
-            const user = users[0];
-            if (!user) {
-                return res.status(400).json({message: `Пользователь ${username} не найден`});
-            }
-            const validPassword = bcrypt.compareSync(password, user.password)
-            if (!validPassword) {
-                return res.status(400).json({message: `Введен неверный пароль`})
-            }
-            const token = generateAccessToken(user._id, user.role)
-            return res.json({token})
+            const userData = await userService.login(username, password);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
         } catch (e) {
-            console.log(e)
-            res.status(400).json({message: 'Login error'})
+            return next(e);
+            //res.status(400).json({message: 'Login error'})
+        }
+    }
+    
+    async logout(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies;
+            const token = await userService.logout(refreshToken);
+            res.clearCookie('refreshToken');
+            return res.json(token);
+        } catch (e) {
+            return next(e);
+        }
+    }
+
+
+    async refresh(req, res, next) {
+        try {
+            const {refreshToken} = req.cookies;
+            const userData = await userService.refresh(refreshToken);
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(userData);
+        } catch (e) {
+            return next(e);
         }
     }
 
     async getUsers(req, res) {
         try {
-            const users = await db.query('SELECT * FROM users');
-            res.json(users)
+            const users = await userService.getAllUsers();
+            return res.json(users[0]);
             
         } catch (e) {
             console.log(e)

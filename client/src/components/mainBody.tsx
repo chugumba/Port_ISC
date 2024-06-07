@@ -4,7 +4,9 @@ import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import { Button, Paper, Title, useMantineTheme, Text, TextInput, Checkbox, Group, Box } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import '../styles/main/main.css'
+import { Link, useNavigate } from "react-router-dom";
+import '../styles/main/main.css';
+import {GetInTouchSimple} from './contactForm';
 
 const data = [
   {
@@ -55,8 +57,8 @@ function Card({ image, title, category, direct }: CardProps) {
           {title}
         </Title>
       </div>
-      <Button variant="white" color="dark" component="a"
-      href = {direct}>
+      <Button variant="white" color="dark" component={Link}
+      to = {direct}>
         Узнать больше 
       </Button>
     </Paper>
@@ -101,8 +103,8 @@ function contactForm() {
 }
 
 function MainBody() {
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  //const theme = useMantineTheme();
+  //const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
       <Card {...item} />
@@ -131,25 +133,11 @@ function MainBody() {
       <div className='main-contact-form-container'>
         <div className='main-contact-form'> 
           <Paper shadow="md" radius="lg" p="xl" className='main-contact-paper'>
-            {contactForm()} 
+          <GetInTouchSimple/>
           </Paper>
         </div>
-        <div className='contact-form-text'>
-        <Paper shadow="md" radius="lg" p="xl" className='main-contact-paper'>
-              <div>
-                <h1>Свяжитесь с нами!</h1>
-                <Text size='lg'>Наш центр по работе с клиентами обеспечивает простой
-                  и своевременный доступ к услугам компании.
-                </Text>
-                <Text size='lg'>
-                  Вы можете оставить свои контактные данные в форме или
-                  связаться с нами по почте или контактному телефону
-                </Text>
-              </div> 
-          </Paper>
-        </div>
-      </div>
-
+        
+      </div>      
     </main>
 
   );

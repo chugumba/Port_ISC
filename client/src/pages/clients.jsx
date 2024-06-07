@@ -1,16 +1,14 @@
 import React from 'react';
 import MainHeader from '../components/mainHeader';
 import MainFooter from '../components/mainFooter';
+import { ClientsFAQ } from '../components/ClientsFAQ';
 
 const ClientsPage = () => {
   return (
     <>
       <MainHeader/>
       
-        <div>
-          <h1>Клиентам</h1>
-          <p>Здесь будет основной контент раздела.</p>
-        </div>
+        <ClientsFAQ/>
       
       <MainFooter/>
     </>
